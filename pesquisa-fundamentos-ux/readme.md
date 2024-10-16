@@ -7,7 +7,7 @@ Cada grupo deve entregar **dois itens obrigatórios**:
 1. **Apresentação em Slides**
    - Vocês devem preparar uma apresentação clara e objetiva.
    - Usem slides ou qualquer outro recurso visual que facilite a explicação do tema.
-   - A apresentação deve ter até **10 minutos**.
+   - A apresentação deve ter até **3/7 minutos**.
 
 2. **Documento Escrito**
    - O documento deve explicar o tema de forma detalhada.

@@ -91,3 +91,29 @@ Cada grupo deve entregar **dois itens obrigatórios**:
 - O que são microinterações no design de interface?
 - Como o feedback do sistema melhora a experiência do usuário?
 - Exemplos de microinterações em aplicativos populares
+
+## 11. Design Emocional em UX
+- Como o design pode evocar emoções positivas no usuário.
+- Princípios do design emocional: prazer, empatia e confiança.
+- Exemplos de produtos que utilizam o design emocional para melhorar a experiência.
+
+## 12. UX Writing
+- O que é UX Writing e sua importância para a experiência do usuário.
+- Princípios de escrita para UX: clareza, concisão e consistência.
+- Exemplos de como um bom UX Writing impacta a usabilidade de um produto.
+
+## 13. Design Responsivo e Adaptativo
+- Diferença entre design responsivo e design adaptativo.
+- Como projetar para diferentes dispositivos e resoluções.
+- Ferramentas e práticas recomendadas para design responsivo.
+
+## 14. Jornada do Usuário (User Journey)
+- O que é uma jornada do usuário e sua importância no design UX.
+- Como mapear uma jornada do usuário e identificar pontos de melhoria.
+- Exemplos de user journey em produtos digitais.
+
+## 15. Design Inclusivo
+- O que é design inclusivo e por que é importante para o UX.
+- Práticas de design para criar interfaces que atendam a diferentes perfis de usuário.
+- Exemplos de produtos que utilizam design inclusivo para garantir acessibilidade e diversidade.
+

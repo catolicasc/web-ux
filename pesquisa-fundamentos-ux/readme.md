@@ -1,4 +1,4 @@
-# Guia de Entrega: Atividade de Pesquisa sobre UX
+# Guia de Entrega: Atividade de Pesquisa sobre UX - N2 - 27/11
 
 ## Instruções para a Entrega
 

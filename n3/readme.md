@@ -90,5 +90,5 @@ Crie um contador que funcione assim:
 ---
 
 ## **Entrega**
-- Organize todos os arquivos na pasta `prova-pratica` e envie o projeto compactado.
+- Organize todos as tarefas por link do jsfiddle
 - Certifique-se de que todas as funcionalidades foram testadas e estão funcionando corretamente.

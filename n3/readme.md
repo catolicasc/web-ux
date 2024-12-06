@@ -1,9 +1,7 @@
 # Prova Prática - HTML + CSS + JavaScript
 
 ## Instruções
-- Crie os arquivos necessários (`index.html`, `styles.css`, `script.js`).
-- Salve todas as respostas em uma pasta chamada `prova-pratica`.
-- Para cada questão, siga as instruções atentamente e teste para garantir que funciona.
+- Utilize o jsfiddle ou sandbox para organizar os exercicios
 
 ---
 

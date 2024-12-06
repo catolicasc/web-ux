@@ -1,4 +1,4 @@
-# Prova Prática - HTML + CSS + JavaScript
+# Exercicio - HTML + CSS + JavaScript
 
 ## Instruções
 - Utilize o jsfiddle ou sandbox para organizar os exercicios

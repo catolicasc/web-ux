@@ -345,6 +345,15 @@
             background-color: red;
         }
 
+        .timeline-dot.in-progress {
+            background-color: #ffa000;
+        }
+
+        .timeline-dot.pending {
+            background-color: #ddd;
+            color: #666;
+        }
+
         .timeline-content {
             flex: 1;
             background-color: #f9f9f9;
@@ -353,10 +362,22 @@
             border: 1px solid #eee;
         }
 
+        .timeline-content.pending {
+            background-color: #f5f5f5;
+            color: #999;
+            border: 1px dashed #ddd;
+        }
+
         .timeline-header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             margin-bottom: 12px;
+        }
+
+        .timeline-title-container {
+            display: flex;
+            align-items: center;
             gap: 10px;
         }
 
@@ -367,11 +388,13 @@
         }
 
         .timeline-status {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             padding: 4px 8px;
             border-radius: 4px;
             font-size: 12px;
             font-weight: bold;
+            gap: 4px;
         }
 
         .timeline-status.delayed {
@@ -384,58 +407,45 @@
             color: green;
         }
 
-        /* Dates compact styles */
-        .dates-compact {
+        .timeline-status.in-progress {
+            background-color: rgba(255, 160, 0, 0.1);
+            color: #ffa000;
+        }
+
+        .timeline-status.pending {
+            background-color: rgba(200, 200, 200, 0.2);
+            color: #888;
+        }
+
+        .timeline-dates {
             display: flex;
             align-items: center;
-            padding: 8px 12px;
-            background-color: white;
-            border-radius: 6px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-            margin-bottom: 12px;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
-        .date-item-compact {
+        .date-item {
             display: flex;
             align-items: center;
-            padding: 0 12px;
-            position: relative;
-        }
-
-        .date-item-compact:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background-color: #eee;
-        }
-
-        .date-label-compact {
+            gap: 4px;
             font-size: 12px;
+        }
+
+        .date-label {
             color: #666;
-            margin-right: 8px;
-            display: flex;
-            align-items: center;
-        }
-
-        .date-label-compact ion-icon {
-            margin-right: 4px;
-            font-size: 14px;
-        }
-
-        .date-value-compact {
-            font-size: 13px;
             font-weight: 500;
         }
 
-        .date-value-compact.delayed {
+        .date-value {
+            font-weight: 600;
+        }
+
+        .date-value.delayed {
             color: red;
             position: relative;
         }
 
-        .date-value-compact.delayed::after {
+        .date-value.delayed::after {
             content: '!';
             position: absolute;
             top: -8px;
@@ -452,10 +462,54 @@
             font-weight: bold;
         }
 
+        .date-value.pending {
+            color: #999;
+            font-style: italic;
+        }
+
+        /* History styles */
+        .history-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 12px;
+            padding: 8px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: #555;
+            transition: background-color 0.2s;
+        }
+
+        .history-toggle:hover {
+            background-color: #e5e5e5;
+        }
+
+        .history-toggle-icon {
+            transition: transform 0.3s;
+        }
+
+        .history-toggle.active .history-toggle-icon {
+            transform: rotate(180deg);
+        }
+
         .history-section {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            margin-top: 0;
+            padding-top: 0;
+            border-top: 1px solid #eee;
+        }
+
+        .history-section.active {
+            max-height: 500px;
             margin-top: 12px;
             padding-top: 12px;
-            border-top: 1px solid #eee;
+            transition: max-height 0.3s ease-in;
         }
 
         .history-title {
@@ -532,22 +586,18 @@
         }
 
         @media (max-width: 768px) {
-            .dates-compact {
+            .timeline-header {
                 flex-direction: column;
                 align-items: flex-start;
             }
             
-            .date-item-compact {
+            .timeline-dates {
+                margin-top: 8px;
                 width: 100%;
-                padding: 6px 0;
             }
             
-            .date-item-compact:not(:last-child)::after {
-                width: 100%;
-                height: 1px;
-                top: auto;
-                bottom: 0;
-                right: auto;
+            .date-item {
+                margin-bottom: 4px;
             }
         }
     </style>
@@ -576,104 +626,132 @@
 
     <script>
         const items = [
+    {
+        id: "ITEM-001",
+        lineNumber: "10",
+        code: "1004578",
+        description: "RELE SOBRECARGA RW27-1D3-U017 CINZA 11-17A",
+        unit: "CX",
+        quantity: 5,
+        status: "completed",
+        statusText: "Concluído",
+        shipments: [
             {
-                id: "ITEM-001",
-                lineNumber: "10",
-                code: "1004578",
-                description: "Parafuso sextavado M10x50mm aço inox",
+                id: "REM-001",
+                name: "Remessa #1008873413",
+                status: "completed",
+                statusText: "Entregue",
+                date: "16/01/2025",
                 unit: "CX",
                 quantity: 5,
-                status: "completed",
-                statusText: "Concluído",
-                shipments: [
-                    {
-                        id: "REM-001",
-                        name: "Remessa #1008873413",
-                        status: "completed",
-                        statusText: "Entregue",
-                        date: "16/01/2025",
-                        unit: "CX",
-                        quantity: 5,
-                        isDelayed: false,
-                        details: "Entregue em 16/01/2025 - Joinville, SC"
-                    }
-                ]
+                isDelayed: false,
+                details: "Entregue em 16/01/2025 - Joinville, SC",
+                progressStep: 6 
+            }
+        ]
+    },
+    {
+        id: "ITEM-002",
+        lineNumber: "20",
+        code: "1004579",
+        description: "BOBINA DE DISPARO BD 220-240 Vca/250 Vcc PARA DISJUNTOR CAIXA MOLDADA ACW100-800",
+        unit: "PC",
+        quantity: 100,
+        status: "in-progress",
+        statusText: "Em Andamento",
+        shipments: [
+            {
+                id: "REM-002",
+                name: "Remessa #1008873414",
+                status: "in-progress",
+                statusText: "Em Trânsito",
+                date: "18/01/2025",
+                unit: "PC",
+                quantity: 50,
+                isDelayed: false,
+                details: "Previsão de entrega: 18/01/2025 - São Paulo, SP",
+                progressStep: 4 
             },
             {
-                id: "ITEM-002",
-                lineNumber: "20",
-                code: "1004579",
-                description: "Porca sextavada M10 aço inox",
+                id: "REM-003",
+                name: "Remessa #1008873415",
+                status: "delayed",
+                statusText: "Atrasada",
+                date: "15/01/2025",
+                unit: "PC",
+                quantity: 50,
+                isDelayed: true,
+                details: "Atraso na entrega - Curitiba, PR",
+                progressStep: 3 
+            }
+        ]
+    },
+    {
+        id: "ITEM-003",
+        lineNumber: "30",
+        code: "1004580",
+        description: "DISJUNTOR ACW250H-ATU200-3",
+        unit: "PC",
+        quantity: 200,
+        status: "delayed",
+        statusText: "Atrasado",
+        shipments: [
+            {
+                id: "REM-004",
+                name: "Remessa #1008873416",
+                status: "delayed",
+                statusText: "Atrasada",
+                date: "20/01/2025",
                 unit: "PC",
                 quantity: 100,
-                status: "in-progress",
-                statusText: "Em Andamento",
-                shipments: [
-                    {
-                        id: "REM-002",
-                        name: "Remessa #1008873414",
-                        status: "in-progress",
-                        statusText: "Em Trânsito",
-                        date: "18/01/2025",
-                        unit: "PC",
-                        quantity: 50,
-                        isDelayed: false,
-                        details: "Previsão de entrega: 18/01/2025 - São Paulo, SP"
-                    },
-                    {
-                        id: "REM-003",
-                        name: "Remessa #1008873415",
-                        status: "delayed",
-                        statusText: "Atrasada",
-                        date: "15/01/2025",
-                        unit: "PC",
-                        quantity: 50,
-                        isDelayed: true,
-                        details: "Atraso na entrega - Curitiba, PR"
-                    }
-                ]
+                isDelayed: true,
+                details: "Atraso na entrega - Rio de Janeiro, RJ",
+                progressStep: 2 
             },
             {
-                id: "ITEM-003",
-                lineNumber: "30",
-                code: "1004580",
-                description: "Arruela lisa M10 aço inox",
+                id: "REM-005",
+                name: "Remessa #1008873417",
+                status: "in-progress",
+                statusText: "Em Separação",
+                date: "22/01/2025",
                 unit: "PC",
-                quantity: 200,
-                status: "delayed",
-                statusText: "Atrasado",
-                shipments: [
-                    {
-                        id: "REM-004",
-                        name: "Remessa #1008873416",
-                        status: "delayed",
-                        statusText: "Atrasada",
-                        date: "20/01/2025",
-                        unit: "PC",
-                        quantity: 100,
-                        isDelayed: true,
-                        details: "Atraso na entrega - Rio de Janeiro, RJ"
-                    },
-                    {
-                        id: "REM-005",
-                        name: "Remessa #1008873417",
-                        status: "in-progress",
-                        statusText: "Em Separação",
-                        date: "22/01/2025",
-                        unit: "PC",
-                        quantity: 100,
-                        isDelayed: false,
-                        details: "Em processo de separação - Belo Horizonte, MG"
-                    }
-                ]
+                quantity: 100,
+                isDelayed: false,
+                details: "Em processo de separação - Belo Horizonte, MG",
+                progressStep: 1 
             }
-        ];
+        ]
+    },
+    {
+        id: "ITEM-004",
+        lineNumber: "40",
+        code: "1004581",
+        description: "MODULO DE FUGA A TERRA FT 220-460V50/60Hz 83481172603 PARA DISJUNTOR CAIXA MOLDADA ACW250",
+        unit: "PC",
+        quantity: 50,
+        status: "in-progress",
+        statusText: "Em Andamento",
+        shipments: [
+            {
+                id: "REM-006",
+                name: "Remessa #1008873418",
+                status: "in-progress",
+                statusText: "Em Produção",
+                date: "25/01/2025",
+                unit: "PC",
+                quantity: 50,
+                isDelayed: false,
+                details: "Em processo de produção - Campinas, SP",
+                progressStep: 2 
+            }
+        ]
+    }
+];
 
         const orderSteps = [
             {
                 "code": "P_CONFIRM",
                 "description": "Produto confirmado",
-                "status": 2,
                 "sequence": 0,
                 "requiredToShow": null,
                 "stepGeneralDescription": "Produto Confirmado",
@@ -686,7 +764,6 @@
             {
                 "code": "P_PROCESS",
                 "description": "Produto processado",
-                "status": 2,
                 "sequence": 1,
                 "requiredToShow": null,
                 "stepGeneralDescription": "Produto Processado",
@@ -699,7 +776,6 @@
             {
                 "code": "P_BILLING",
                 "description": "Produto faturado",
-                "status": 2,
                 "sequence": 2,
                 "requiredToShow": null,
                 "stepGeneralDescription": "Produto Faturado",
@@ -713,7 +789,6 @@
             {
                 "code": "P_PICKING",
                 "description": "Produto coletado",
-                "status": 2,
                 "sequence": 3,
                 "requiredToShow": null,
                 "stepGeneralDescription": "Produto Coletado",
@@ -727,7 +802,6 @@
             {
                 "code": "P_TRANSPORTATION",
                 "description": "Produto transportado",
-                "status": 2,
                 "sequence": 4,
                 "requiredToShow": null,
                 "stepGeneralDescription": "Produto Transportado",
@@ -740,7 +814,6 @@
             {
                 "code": "P_DELIVERY",
                 "description": "Produto entregue",
-                "status": 2,
                 "sequence": 5,
                 "requiredToShow": true,
                 "stepGeneralDescription": "Produto Entregue",
@@ -764,7 +837,7 @@
             
             const realizado = new Date(baseDate);
             
-            const isDelayed = sequence % 2 === 1; 
+            const isDelayed = sequence % 2 === 1;
             if (isDelayed) {
                 realizado.setDate(previsto.getDate() + 5); 
             }
@@ -778,6 +851,7 @@
         }
 
         function formatDateCompact(date) {
+            if (!date) return "Pendente";
             return date.toLocaleString("pt-BR", {
                 day: "2-digit",
                 month: "2-digit",
@@ -786,6 +860,7 @@
         }
 
         function formatHistoryDate(date) {
+            if (!date) return "Pendente";
             return date.toLocaleString("pt-BR", {
                 day: "2-digit",
                 month: "2-digit",
@@ -796,16 +871,9 @@
         }
 
         function checkIfDelayed(dates) {
+            if (!dates || !dates.realizado || !dates.previsto) return false;
             return dates.realizado > dates.previsto;
         }
-
-        const stepsWithDates = orderSteps.map(step => {
-            if (step.status === 2) {
-                const dates = generateRandomDates(step.sequence);
-                return { ...step, dates };
-            }
-            return step;
-        });
 
         function createTimeline(shipmentId) {
             return `
@@ -820,34 +888,152 @@
             `;
         }
 
+        function toggleHistory(historyId) {
+            const historySection = document.getElementById(`history-${historyId}`);
+            const historyToggle = document.getElementById(`history-toggle-${historyId}`);
+            
+            if (historySection && historyToggle) {
+                historySection.classList.toggle('active');
+                historyToggle.classList.toggle('active');
+            }
+        }
+
         function populateTimeline(shipmentId) {
             const timelineContainer = document.getElementById(`timeline-${shipmentId}`);
             
             timelineContainer.innerHTML = '';
             
-            stepsWithDates.forEach((step) => {
+            let currentShipment = null;
+            items.forEach(item => {
+                item.shipments.forEach(shipment => {
+                    if (shipment.id === shipmentId) {
+                        currentShipment = shipment;
+                    }
+                });
+            });
+            
+            if (!currentShipment) return;
+            
+            const stepsWithStatus = orderSteps.map((step, index) => {
+                let status;
+                let dates = null;
+                
+                if (index < currentShipment.progressStep) {
+                    status = 2;
+                    dates = generateRandomDates(step.sequence);
+                } else if (index === currentShipment.progressStep) {
+                    status = 1;
+                    dates = {
+                        previsto: new Date(),
+                        revisado: new Date(),
+                        realizado: null,
+                        isDelayed: false
+                    };
+                } else {
+                    status = 0;
+                    dates = {
+                        previsto: new Date(),
+                        revisado: null,
+                        realizado: null,
+                        isDelayed: false
+                    };
+                }
+                
+                return { ...step, status, dates };
+            });
+            
+            const reversedSteps = [...stepsWithStatus].reverse();
+            
+            reversedSteps.forEach((step, index) => {
+                const timelineStep = document.createElement('div');
+                timelineStep.className = 'timeline-step-vertical';
+                
+                let statusText, statusClass, dotClass, contentClass;
+                
                 if (step.status === 2) {
-                    const dates = step.dates;
-                    const isDelayed = checkIfDelayed(dates);
-                    
-                    const timelineStep = document.createElement('div');
-                    timelineStep.className = 'timeline-step-vertical';
-                    
-                    const statusText = isDelayed ? "Atrasado" : "No Prazo";
-                    const statusClass = isDelayed ? "delayed" : "on-time";
-                    
-                    const historyHTML = `
-                        <div class="history-section">
-                            <div class="history-title">
-                                <ion-icon name="time-outline"></ion-icon>
-                                Histórico
-                            </div>
+                    const isDelayed = checkIfDelayed(step.dates);
+                    statusText = isDelayed ? "Atrasado" : "No Prazo";
+                    statusClass = isDelayed ? "delayed" : "on-time";
+                    dotClass = isDelayed ? "delayed" : "";
+                    contentClass = "";
+                } else if (step.status === 1) {
+                    statusText = "Em Andamento";
+                    statusClass = "in-progress";
+                    dotClass = "in-progress";
+                    contentClass = "";
+                } else {
+                    statusText = "Pendente";
+                    statusClass = "pending";
+                    dotClass = "pending";
+                    contentClass = "pending";
+                }
+                
+                let datesHTML = '';
+                if (step.status === 0) {
+                    datesHTML = `
+                        <div class="date-item">
+                            <span class="date-label">Previsto:</span>
+                            <span class="date-value">${formatDateCompact(step.dates.previsto)}</span>
+                        </div>
+                        <div class="date-item">
+                            <span class="date-label">Revisado:</span>
+                            <span class="date-value pending">Pendente</span>
+                        </div>
+                        <div class="date-item">
+                            <span class="date-label">Realizado:</span>
+                            <span class="date-value pending">Pendente</span>
+                        </div>
+                    `;
+                } else if (step.status === 1) {
+                    datesHTML = `
+                        <div class="date-item">
+                            <span class="date-label">Previsto:</span>
+                            <span class="date-value">${formatDateCompact(step.dates.previsto)}</span>
+                        </div>
+                        <div class="date-item">
+                            <span class="date-label">Revisado:</span>
+                            <span class="date-value">${formatDateCompact(step.dates.revisado)}</span>
+                        </div>
+                        <div class="date-item">
+                            <span class="date-label">Realizado:</span>
+                            <span class="date-value pending">Em andamento</span>
+                        </div>
+                    `;
+                } else {
+                    const isDelayed = checkIfDelayed(step.dates);
+                    datesHTML = `
+                        <div class="date-item">
+                            <span class="date-label">Previsto:</span>
+                            <span class="date-value">${formatDateCompact(step.dates.previsto)}</span>
+                        </div>
+                        <div class="date-item">
+                            <span class="date-label">Revisado:</span>
+                            <span class="date-value">${formatDateCompact(step.dates.revisado)}</span>
+                        </div>
+                        <div class="date-item">
+                            <span class="date-label">Realizado:</span>
+                            <span class="date-value ${isDelayed ? 'delayed' : ''}">${formatDateCompact(step.dates.realizado)}</span>
+                        </div>
+                    `;
+                }
+                
+                let historyHTML = '';
+                const historyId = `${shipmentId}-step-${index}`;
+                
+                if (step.status === 2) {
+                    historyHTML = `
+                        <div class="history-toggle" id="history-toggle-${historyId}" onclick="toggleHistory('${historyId}')">
+                            <ion-icon name="time-outline"></ion-icon>
+                            Ver histórico
+                            <ion-icon name="chevron-down-outline" class="history-toggle-icon"></ion-icon>
+                        </div>
+                        <div class="history-section" id="history-${historyId}">
                             <div class="history-item">
                                 <div class="history-icon">
                                     <ion-icon name="${step.icon}"></ion-icon>
                                 </div>
                                 <div class="history-content">
-                                    <div class="history-datetime">${formatHistoryDate(dates.realizado)}</div>
+                                    <div class="history-datetime">${formatHistoryDate(step.dates.realizado)}</div>
                                     <p class="history-text">${step.description}</p>
                                     ${Object.entries(step.additionalInfo).map(([key, value]) => 
                                         `<p class="history-text"><strong>${key}:</strong> ${value}</p>`
@@ -856,52 +1042,36 @@
                             </div>
                         </div>
                     `;
-                    
-                    timelineStep.innerHTML = `
-                        <div class="timeline-dot-container">
-                            <div class="timeline-dot ${isDelayed ? 'delayed' : ''}">
-                                <ion-icon name="${step.icon}"></ion-icon>
-                            </div>
+                }
+                
+                timelineStep.innerHTML = `
+                    <div class="timeline-dot-container">
+                        <div class="timeline-dot ${dotClass}">
+                            <ion-icon name="${step.icon}"></ion-icon>
                         </div>
-                        <div class="timeline-content">
-                            <div class="timeline-header">
+                    </div>
+                    <div class="timeline-content ${contentClass}">
+                        <div class="timeline-header">
+                            <div class="timeline-title-container">
                                 <div class="timeline-title">${step.description}</div>
                                 <span class="timeline-status ${statusClass}">
                                     ${statusText}
-                                    ${isDelayed ? '<ion-icon name="alert-circle-outline"></ion-icon>' : '<ion-icon name="checkmark-circle-outline"></ion-icon>'}
+                                    ${step.status === 2 && statusClass === "delayed" ? '<ion-icon name="alert-circle-outline"></ion-icon>' : ''}
+                                    ${step.status === 2 && statusClass === "on-time" ? '<ion-icon name="checkmark-circle-outline"></ion-icon>' : ''}
+                                    ${step.status === 1 ? '<ion-icon name="time-outline"></ion-icon>' : ''}
+                                    ${step.status === 0 ? '<ion-icon name="hourglass-outline"></ion-icon>' : ''}
                                 </span>
                             </div>
-                            
-                            <div class="dates-compact">
-                                <div class="date-item-compact">
-                                    <div class="date-label-compact">
-                                        <ion-icon name="calendar-outline"></ion-icon>
-                                        Previsto:
-                                    </div>
-                                    <div class="date-value-compact">${formatDateCompact(dates.previsto)}</div>
-                                </div>
-                                <div class="date-item-compact">
-                                    <div class="date-label-compact">
-                                        <ion-icon name="calendar-outline"></ion-icon>
-                                        Revisado:
-                                    </div>
-                                    <div class="date-value-compact">${formatDateCompact(dates.revisado)}</div>
-                                </div>
-                                <div class="date-item-compact">
-                                    <div class="date-label-compact">
-                                        <ion-icon name="calendar-outline"></ion-icon>
-                                        Realizado:
-                                    </div>
-                                    <div class="date-value-compact ${isDelayed ? 'delayed' : ''}">${formatDateCompact(dates.realizado)}</div>
-                                </div>
+                            <div class="timeline-dates">
+                                ${datesHTML}
                             </div>
-                            
-                            ${historyHTML}
                         </div>
-                    `;
-                    
-                    timelineContainer.appendChild(timelineStep);
-                }
+                        
+                        ${historyHTML}
+                    </div>
+                `;
+                
+                timelineContainer.appendChild(timelineStep);
             });
         }
 
@@ -987,6 +1157,7 @@
                     });
                     
                     this.classList.add('active');
+                    
                     showItemContent(item);
                 });
                 
@@ -999,8 +1170,10 @@
         }
 
         window.toggleShipment = toggleShipment;
+        window.toggleHistory = toggleHistory;
         createItemsList();
     </script>
 
 </body>
 </html>
+

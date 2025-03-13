@@ -636,97 +636,115 @@
         const invoiceUrlStart = $('#invoice-url-start').attr('weg-url');
         const invoiceUrlEnd = $('#invoice-url-end').attr('weg-url');
         $(document).ready(function () {
-            // Dados de exemplo para itens e remessas
             const items = [
                 {
                     id: "ITEM-001",
                     lineNumber: "10",
                     code: "1004579",
                     description: "BOBINA DE DISPARO BD 220-240 Vca/250 Vcc PARA DISJUNTOR CAIXA MOLDADA ACW100-800",
-                    unit: "PC",
+                    unit: "UN",
                     quantity: 12,
                     status: "in-progress",
                     statusText: "Em Andamento",
                     shipments: [
-                        {
-                            id: "REM-001",
-                            name: "#1008873414",
-                            status: "in-progress",
-                            statusText: "Em Trânsito",
-                            date: "18/01/2025",
-                            unit: "PC",
+                    {
+                            id: "REM-002",
+                            name: "#10452204",
+                            status: "completed",
+                            statusText: "Entregue",
+                            date: "21/01/2025",
+                            unit: "UN",
                             quantity: 1,
                             isDelayed: false,
-                            details: "Previsão de entrega: 18/01/2025 - São Paulo, SP",
-                            progressStep: 4, // Parou em "Produto transportado"
+                            details: "Entregue em 21/01/2025",
+                            progressStep: 7,
                             history: [
+                                {
+                                    "code": "P_DELIVERY",
+                                    "description": "Produto entregue",
+                                    "hidden": null,
+                                    "dateTime": "21/01/2025 12:59:00",
+                                    "document": "1008884191",
+                                    "quantity": null,
+                                    "noteList": null,
+                                    "dates": {
+                                        "previsto": "23/01/2025",
+                                        "revisado": "23/01/2025",
+                                        "realizado": "23/01/2025"
+                                    }
+                                },
                                 {
                                     "code": "P_TRANSPORTATION",
                                     "description": "Produto transportado",
                                     "hidden": null,
-                                    "dateTime": "18/01/2025 12:59:00",
-                                    "document": "0845197327",
-                                    "quantity": "1.0",
+                                    "dateTime": "23/01/2025 13:45:00",
+                                    "document": null,
+                                    "quantity": null,
                                     "noteList": [
                                         {
                                             "code": "TRACKING_NUMBER",
                                             "description": "Documento de Transporte:",
-                                            "content": "1008873414"
+                                            "content": "1008884191"
                                         }
                                     ],
                                     "dates": {
-                                        "previsto": "15/01/2025",
-                                        "revisado": "17/01/2025",
-                                        "realizado": "18/01/2025"
+                                        "previsto": "23/01/2025",
+                                        "revisado": "23/01/2025",
+                                        "realizado": "23/01/2025"
                                     }
                                 },
                                 {
                                     "code": "P_PICKING",
                                     "description": "Produto coletado",
                                     "hidden": null,
-                                    "dateTime": "17/01/2025 18:36:17",
-                                    "document": "0845197327",
-                                    "quantity": "1.0",
+                                    "dateTime": "23/01/2025 13:45:00",
+                                    "document": null,
+                                    "quantity": null,
                                     "noteList": [
                                         {
                                             "code": "TRACKING_NUMBER",
                                             "description": "Documento de Transporte:",
-                                            "content": "1008873414"
+                                            "content": "1008884191"
                                         },
                                         {
                                             "code": "TRANSP_NAME",
                                             "description": "Nome Transportadora:",
                                             "content": "TRANSJOI TRANSPORTES LTDA"
+                                        },
+                                        {
+                                            "code": "TRACKING_URL",
+                                            "description": "Rastreio da transportadora: ",
+                                            "content": "https://movement.project44.com/share/834d4a2c-2641-40b0-b4bd-4d8f32101677"
                                         }
                                     ],
                                     "dates": {
-                                        "previsto": "14/01/2025",
-                                        "revisado": "16/01/2025",
-                                        "realizado": "17/01/2025"
+                                        "previsto": "23/01/2025",
+                                        "revisado": "23/01/2025",
+                                        "realizado": "23/01/2025"
                                     }
                                 },
                                 {
                                     "code": "P_BILLING",
                                     "description": "Produto faturado",
                                     "hidden": null,
-                                    "dateTime": "16/01/2025 15:08:43",
-                                    "document": "0845197327",
-                                    "quantity": "1.0",
+                                    "dateTime": "16/01/2025 12:13:13",
+                                    "document": null,
+                                    "quantity": null,
                                     "noteList": [
                                         {
                                             "code": "INVOICE",
                                             "description": "Documento de Faturamento:",
-                                            "content": "0941029679"
+                                            "content": "0941039197"
                                         },
                                         {
                                             "code": "NF_NUMBER",
                                             "description": "Número Nota Fiscal:",
-                                            "content": "003801020-1"
+                                            "content": "003802675-1"
                                         }
                                     ],
                                     "dates": {
-                                        "previsto": "13/01/2025",
-                                        "revisado": "15/01/2025",
+                                        "previsto": "16/01/2025",
+                                        "revisado": "16/01/2025",
                                         "realizado": "16/01/2025"
                                     }
                                 },
@@ -734,20 +752,40 @@
                                     "code": "P_PROCESS",
                                     "description": "Produto processado",
                                     "hidden": null,
-                                    "dateTime": "15/01/2025 15:08:22",
-                                    "document": "0845197327",
-                                    "quantity": "1.0",
+                                    "dateTime": "16/01/2025 12:13:13",
+                                    "document": null,
+                                    "quantity": null,
                                     "noteList": [
                                         {
                                             "code": "TRACKING_NUMBER",
                                             "description": "Documento de Transporte:",
-                                            "content": "1008873414"
+                                            "content": "1008884191"
                                         }
                                     ],
                                     "dates": {
-                                        "previsto": "12/01/2025",
-                                        "revisado": "14/01/2025",
-                                        "realizado": "15/01/2025"
+                                        "previsto": "16/01/2025",
+                                        "revisado": "16/01/2025",
+                                        "realizado": "16/01/2025"
+                                    }
+                                },
+                                {
+                                    "code": "P_PRODUCTION",
+                                    "description": "Produzido",
+                                    "hidden": null,
+                                    "dateTime": "13/01/2025 08:23:01",
+                                    "document": null,
+                                    "quantity": 1,
+                                    "noteList": [
+                                        {
+                                            "code": "PRODUCTION_ORDER",
+                                            "description": "Ordem de Produção:",
+                                            "content": "OP-626456"
+                                        }                                       
+                                    ],
+                                    "dates": {
+                                        "previsto": "13/01/2025",
+                                        "revisado": "13/01/2025",
+                                        "realizado": "13/01/2025"
                                     }
                                 },
                                 {
@@ -756,11 +794,22 @@
                                     "hidden": null,
                                     "dateTime": "13/01/2025 08:23:01",
                                     "document": null,
-                                    "quantity": "1.0",
-                                    "noteList": null,
+                                    "quantity": 1,
+                                    "noteList": [
+                                        {
+                                            "code": "PREVISION_DELIVERY",
+                                            "description": "Previsão de entrega",
+                                            "content": "04/02/2025"
+                                        },
+                                        {
+                                            "code": "PREVISION_STOCK",
+                                            "description": "Previsão de estoque",
+                                            "content": "Adicionar data, validar com gabriel"
+                                        },
+                                    ],
                                     "dates": {
-                                        "previsto": "10/01/2025",
-                                        "revisado": "12/01/2025",
+                                        "previsto": "13/01/2025",
+                                        "revisado": "13/01/2025",
                                         "realizado": "13/01/2025"
                                     }
                                 }
@@ -768,83 +817,34 @@
                         },
                         {
                             id: "REM-003",
-                            name: "#1008873415",
+                            name: "#10452204",
                             status: "delayed",
-                            statusText: "Atrasada",
-                            date: "15/01/2025",
-                            unit: "PC",
+                            statusText: "Atrasado",
+                            date: "21/01/2025",
+                            unit: "UN",
                             quantity: 11,
-                            isDelayed: true,
-                            details: "Atraso na entrega - Curitiba, PR",
-                            progressStep: 3, // Parou em "Produto coletado"
+                            isDelayed: false,
+                            details: "Produção está atrasada",
+                            progressStep: 2,
                             history: [
+                                
                                 {
-                                    "code": "P_PICKING",
-                                    "description": "Produto coletado",
+                                    "code": "P_PRODUCTION",
+                                    "description": "Produzido",
                                     "hidden": null,
-                                    "dateTime": "15/01/2025 18:36:17",
-                                    "document": "0845197328",
-                                    "quantity": "11.0",
+                                    "dateTime": "13/01/2025 08:23:01",
+                                    "document": null,
+                                    "quantity": 11,
                                     "noteList": [
                                         {
-                                            "code": "TRACKING_NUMBER",
-                                            "description": "Documento de Transporte:",
-                                            "content": "1008873415"
-                                        },
-                                        {
-                                            "code": "TRANSP_NAME",
-                                            "description": "Nome Transportadora:",
-                                            "content": "TRANSJOI TRANSPORTES LTDA"
-                                        }
+                                            "code": "PRODUCTION_ORDER",
+                                            "description": "Ordem de Produção:",
+                                            "content": "OP-626457"
+                                        }                                       
                                     ],
                                     "dates": {
-                                        "previsto": "10/01/2025",
-                                        "revisado": "12/01/2025",
-                                        "realizado": "15/01/2025"
-                                    }
-                                },
-                                {
-                                    "code": "P_BILLING",
-                                    "description": "Produto faturado",
-                                    "hidden": null,
-                                    "dateTime": "14/01/2025 15:08:43",
-                                    "document": "0845197328",
-                                    "quantity": "11.0",
-                                    "noteList": [
-                                        {
-                                            "code": "INVOICE",
-                                            "description": "Documento de Faturamento:",
-                                            "content": "0941029680"
-                                        },
-                                        {
-                                            "code": "NF_NUMBER",
-                                            "description": "Número Nota Fiscal:",
-                                            "content": "003801021-1"
-                                        }
-                                    ],
-                                    "dates": {
-                                        "previsto": "09/01/2025",
-                                        "revisado": "11/01/2025",
-                                        "realizado": "14/01/2025"
-                                    }
-                                },
-                                {
-                                    "code": "P_PROCESS",
-                                    "description": "Produto processado",
-                                    "hidden": null,
-                                    "dateTime": "13/01/2025 15:08:22",
-                                    "document": "0845197328",
-                                    "quantity": "11.0",
-                                    "noteList": [
-                                        {
-                                            "code": "TRACKING_NUMBER",
-                                            "description": "Documento de Transporte:",
-                                            "content": "1008873415"
-                                        }
-                                    ],
-                                    "dates": {
-                                        "previsto": "08/01/2025",
-                                        "revisado": "10/01/2025",
+                                        "previsto": "13/01/2025",
+                                        "revisado": "13/01/2025",
                                         "realizado": "13/01/2025"
                                     }
                                 },
@@ -852,18 +852,30 @@
                                     "code": "P_CONFIRM",
                                     "description": "Produto confirmado",
                                     "hidden": null,
-                                    "dateTime": "12/01/2025 08:23:01",
+                                    "dateTime": "13/01/2025 08:23:01",
                                     "document": null,
-                                    "quantity": "11.0",
-                                    "noteList": null,
+                                    "quantity": 11,
+                                    "noteList": [
+                                        {
+                                            "code": "PREVISION_DELIVERY",
+                                            "description": "Previsão de entrega",
+                                            "content": "04/02/2025"
+                                        },
+                                        {
+                                            "code": "PREVISION_STOCK",
+                                            "description": "Previsão de estoque",
+                                            "content": "Adicionar data, validar com gabriel"
+                                        },
+                                    ],
                                     "dates": {
-                                        "previsto": "07/01/2025",
-                                        "revisado": "09/01/2025",
-                                        "realizado": "12/01/2025"
+                                        "previsto": "13/01/2025",
+                                        "revisado": "13/01/2025",
+                                        "realizado": "13/01/2025"
                                     }
                                 }
                             ]
                         }
+                    
                     ]
                 },
                 {
@@ -871,7 +883,7 @@
                     lineNumber: "20",
                     code: "1004578",
                     description: "RELE SOBRECARGA RW27-1D3-U017 CINZA 11-17A",
-                    unit: "CX",
+                    unit: "UN",
                     quantity: 20,
                     status: "completed",
                     statusText: "Concluído",
@@ -882,10 +894,10 @@
                             status: "completed",
                             statusText: "Entregue",
                             date: "21/01/2025",
-                            unit: "un.",
-                            quantity: 1,
+                            unit: "UN",
+                            quantity: 20,
                             isDelayed: false,
-                            details: "Entregue em 21/01/2025 - Joinville, SC",
+                            details: "Entregue em 21/01/2025",
                             progressStep: 7,
                             history: [
                                 {
@@ -906,20 +918,20 @@
                                     "code": "P_TRANSPORTATION",
                                     "description": "Produto transportado",
                                     "hidden": null,
-                                    "dateTime": "20/01/2025 12:59:00",
+                                    "dateTime": "21/01/2025 12:59:00",
                                     "document": null,
                                     "quantity": null,
                                     "noteList": [
                                         {
                                             "code": "TRACKING_NUMBER",
                                             "description": "Documento de Transporte:",
-                                            "content": "1008873413"
+                                            "content": "1008880736"
                                         }
                                     ],
                                     "dates": {
-                                        "previsto": "19/01/2025",
-                                        "revisado": "19/01/2025",
-                                        "realizado": "20/01/2025"
+                                        "previsto": "21/01/2025",
+                                        "revisado": "21/01/2025",
+                                        "realizado": "21/01/2025"
                                     }
                                 },
                                 {
@@ -933,7 +945,7 @@
                                         {
                                             "code": "TRACKING_NUMBER",
                                             "description": "Documento de Transporte:",
-                                            "content": "1008873413"
+                                            "content": "1008880736"
                                         },
                                         {
                                             "code": "TRANSP_NAME",
@@ -949,7 +961,7 @@
                                     "dates": {
                                         "previsto": "14/01/2025",
                                         "revisado": "14/01/2025",
-                                        "realizado": "15/01/2025"
+                                        "realizado": "16/01/2025"
                                     }
                                 },
                                 {
@@ -963,17 +975,17 @@
                                         {
                                             "code": "INVOICE",
                                             "description": "Documento de Faturamento:",
-                                            "content": "0941013106"
+                                            "content": "0941029679"
                                         },
                                         {
                                             "code": "NF_NUMBER",
                                             "description": "Número Nota Fiscal:",
-                                            "content": "003797308-1"
+                                            "content": "003801020-1"
                                         }
                                     ],
                                     "dates": {
-                                        "previsto": "13/01/2025",
-                                        "revisado": "13/01/2025",
+                                        "previsto": "15/01/2025",
+                                        "revisado": "15/01/2025",
                                         "realizado": "15/01/2025"
                                     }
                                 },
@@ -981,29 +993,29 @@
                                     "code": "P_PROCESS",
                                     "description": "Produto processado",
                                     "hidden": null,
-                                    "dateTime": "13/01/2025 20:07:47",
+                                    "dateTime": "15/01/2025 15:08:22",
                                     "document": null,
                                     "quantity": null,
                                     "noteList": [
                                         {
                                             "code": "TRACKING_NUMBER",
                                             "description": "Documento de Transporte:",
-                                            "content": "1008873413"
+                                            "content": "1008880736"
                                         }
                                     ],
                                     "dates": {
-                                        "previsto": "12/01/2025",
-                                        "revisado": "12/01/2025",
-                                        "realizado": "12/01/2025"
+                                        "previsto": "15/01/2025",
+                                        "revisado": "15/01/2025",
+                                        "realizado": "15/01/2025"
                                     }
                                 },
                                 {
                                     "code": "P_PRODUCTION",
                                     "description": "Produzido",
                                     "hidden": null,
-                                    "dateTime": "14/01/2025 10:45:00",
+                                    "dateTime": "13/01/2025 08:23:01",
                                     "document": null,
-                                    "quantity": "1.0",
+                                    "quantity": 20,
                                     "noteList": [
                                         {
                                             "code": "PRODUCTION_ORDER",
@@ -1021,14 +1033,14 @@
                                     "code": "P_CONFIRM",
                                     "description": "Produto confirmado",
                                     "hidden": null,
-                                    "dateTime": "01/10/2025 08:23:01",
+                                    "dateTime": "13/01/2025 08:23:01",
                                     "document": null,
-                                    "quantity": 1,
+                                    "quantity": 20,
                                     "noteList": null,
                                     "dates": {
-                                        "previsto": "01/10/2025",
-                                        "revisado": "01/10/2025",
-                                        "realizado": "01/10/2025"
+                                        "previsto": "13/01/2025",
+                                        "revisado": "13/01/2025",
+                                        "realizado": "13/01/2025"
                                     }
                                 }
                             ]
@@ -1146,7 +1158,6 @@
                 }
             ];
 
-            // Formata a data para exibição compacta (apenas data)
             function formatDateCompact(date) {
                 if (!date) return "Pendente";
                 if (typeof date === 'string') return date;
@@ -1157,7 +1168,6 @@
                 });
             }
 
-            // Formata a data para o histórico (data e hora)
             function formatHistoryDate(date) {
                 if (!date) return "Pendente";
                 if (typeof date === 'string') return date;
@@ -1170,11 +1180,8 @@
                 });
             }
 
-            // Verifica se uma etapa está atrasada
             function checkIfDelayed(dates) {
                 if (!dates || !dates.realizado || !dates.previsto) return false;
-
-                // Se as datas já são strings, precisamos convertê-las para comparação
                 if (typeof dates.realizado === 'string' && typeof dates.previsto === 'string') {
                     const realizadoParts = dates.realizado.split('/');
                     const previstoParts = dates.previsto.split('/');
@@ -1197,7 +1204,6 @@
                 return dates.realizado > dates.previsto;
             }
 
-            // Função para criar o conteúdo da timeline
             function createTimeline(shipmentId, hasShipment) {
                 return `
                     <div class="card">
@@ -1211,7 +1217,6 @@
                 `;
             }
 
-            // Função para alternar a exibição do histórico
             function toggleHistory(historyId) {
                 const $historySection = $(`#history-${historyId}`);
                 const $historyToggle = $(`#history-toggle-${historyId}`);
@@ -1228,8 +1233,6 @@
             // Função para preencher a timeline vertical com histórico integrado
             function populateTimeline(shipmentId) {
                 const $timelineContainer = $(`#timeline-${shipmentId}`);
-
-                // Limpa o container
                 $timelineContainer.empty();
 
                 // Encontra a remessa correspondente
@@ -1286,7 +1289,6 @@
                     });
                 });
 
-                // Inverte a ordem dos passos (do mais recente para o mais antigo)
                 const reversedSteps = stepsWithStatus.slice().reverse();
 
                 // Preenche a timeline vertical com os ícones, datas e informações
@@ -1407,7 +1409,7 @@
                                     notesHTML += `<p class="history-text"><strong>${note.description}</strong> 
                                                 <a href="${invoiceUrlStart}${note.content}${invoiceUrlEnd}" target="_blank">${note.content}</a>
                                             </p>`;
-                                }if(note.code == "TRACKING_URL"){
+                                }else if(note.code == "TRACKING_URL"){
                                     notesHTML += `<p class="history-text"><strong>${note.description}</strong> 
                                                 <a href="${note.content}" target="_blank">Acesse o site aqui     <ion-icon name="search-outline" class="search-icon"></ion-icon>
 </a>
@@ -1539,9 +1541,9 @@
                 $('#item-content').html(`
                     <div class="item-content-header">
                         <h2 class="item-content-title">
-                            <span class="item-code">${item.lineNumber}#${item.code}</span> - ${item.description}
+                            <span class="item-code">${item.lineNumber} #${item.code}</span> - ${item.description}
                         </h2>
-                        <p class="item-content-details">Unidade: ${item.unit} | Quantidade: ${item.quantity}</p>
+                        <p class="item-content-details">Quantidade: ${item.quantity}</p>
                     </div>
                     <div class="shipment-container">
                         ${createShipmentCards(item)}
@@ -1567,10 +1569,10 @@
 
                     $itemEntry.html(`
                         <h3 class="item-title">
-                            <span class="item-code">${item.lineNumber}#${item.code}</span>
+                            <span class="item-code">${item.lineNumber} #${item.code}</span>
                         </h3>
                         <p class="item-details">${item.description}</p>
-                        <p class="item-details">Unidade: ${item.unit} | Qtd: ${item.quantity}</p>
+                        <p class="item-details">Qtd: ${item.quantity}</p>
                         <span class="item-badge ${item.status}">${item.statusText}</span>
                     `);
 

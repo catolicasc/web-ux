@@ -333,7 +333,7 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background-color: #0da9ef;
+            background-color: #0da9ef; /* Already using the correct blue color */
             color: white;
             display: flex;
             align-items: center;
@@ -342,15 +342,15 @@
         }
 
         .timeline-dot.delayed {
-            background-color: red;
+            background-color: #0da9ef; /* Alterado de red para #0da9ef (azul) */
         }
 
         .timeline-dot.in-progress {
-            background-color: #ffa000;
+            background-color: #ffc449; /* Updated to the specified yellow color */
         }
 
         .timeline-dot.pending {
-            background-color: #ddd;
+            background-color: #d1d1d1; /* Updated to the specified gray color */
             color: #666;
         }
 
@@ -363,9 +363,9 @@
         }
 
         .timeline-content.pending {
-            background-color: #f5f5f5;
+            background-color: #efefef; /* Using the lighter gray from the specified colors */
             color: #999;
-            border: 1px dashed #ddd;
+            border: 1px dashed #d1d1d1;
         }
 
         .timeline-header {
@@ -403,17 +403,17 @@
         }
 
         .timeline-status.on-time {
-            background-color: rgba(0, 128, 0, 0.1);
-            color: green;
+            background-color: rgba(13, 169, 239, 0.1); /* Updated to match the blue color */
+            color: #0da9ef;
         }
 
         .timeline-status.in-progress {
-            background-color: rgba(255, 160, 0, 0.1);
-            color: #ffa000;
+            background-color: rgba(255, 196, 73, 0.1); /* Updated to match the yellow color */
+            color: #ffc449;
         }
 
         .timeline-status.pending {
-            background-color: rgba(200, 200, 200, 0.2);
+            background-color: rgba(209, 209, 209, 0.2); /* Updated to match the gray color */
             color: #888;
         }
 
@@ -605,15 +605,19 @@
 <body>
 
     <div class="main-container">
+        <!-- Coluna de itens -->
         <div class="items-column">
             <div class="items-header">
                 Itens
             </div>
             <div class="items-list" id="items-list">
+                <!-- Lista de itens será gerada aqui -->
             </div>
         </div>
 
+        <!-- Conteúdo do item selecionado -->
         <div class="item-content" id="item-content">
+            <!-- Estado inicial - nenhum item selecionado -->
             <div class="empty-state">
                 <div class="empty-state-icon">
                     <ion-icon name="cube-outline"></ion-icon>
@@ -625,6 +629,7 @@
     </div>
 
     <script>
+        // Dados de exemplo para itens e remessas
         const items = [
     {
         id: "ITEM-001",
@@ -646,7 +651,7 @@
                 quantity: 5,
                 isDelayed: false,
                 details: "Entregue em 16/01/2025 - Joinville, SC",
-                progressStep: 6 
+                progressStep: 6 // Todos os passos concluídos
             }
         ]
     },
@@ -670,7 +675,7 @@
                 quantity: 50,
                 isDelayed: false,
                 details: "Previsão de entrega: 18/01/2025 - São Paulo, SP",
-                progressStep: 4 
+                progressStep: 4 // Parou em "Produto transportado"
             },
             {
                 id: "REM-003",
@@ -682,7 +687,7 @@
                 quantity: 50,
                 isDelayed: true,
                 details: "Atraso na entrega - Curitiba, PR",
-                progressStep: 3 
+                progressStep: 3 // Parou em "Produto coletado"
             }
         ]
     },
@@ -706,7 +711,7 @@
                 quantity: 100,
                 isDelayed: true,
                 details: "Atraso na entrega - Rio de Janeiro, RJ",
-                progressStep: 2 
+                progressStep: 2 // Parou em "Produto faturado"
             },
             {
                 id: "REM-005",
@@ -718,7 +723,7 @@
                 quantity: 100,
                 isDelayed: false,
                 details: "Em processo de separação - Belo Horizonte, MG",
-                progressStep: 1 
+                progressStep: 1 // Parou em "Produto processado"
             }
         ]
     },
@@ -742,32 +747,7 @@
                 quantity: 50,
                 isDelayed: false,
                 details: "Em processo de produção - Campinas, SP",
-                progressStep: 2 
-            }
-        ]
-    },
-    {
-        id: "ITEM-005",
-        lineNumber: "50",
-        code: "1004582",
-        description: "CONTATOR TRIPOLAR CWB25-11-30D23 25A 1NA+1NF 220VCA",
-        unit: "PC",
-        quantity: 30,
-        status: "completed",
-        statusText: "Concluído",
-        shipments: [
-            {
-                id: "REM-007",
-                name: "Remessa #1008873419",
-                status: "completed",
-                statusText: "Entregue",
-                date: "12/01/2025",
-                unit: "PC",
-                quantity: 30,
-                isDelayed: false,
-                details: "Entregue em 12/01/2025 - Florianópolis, SC",
-                progressStep: 6, 
-                allOnTime: true /
+                progressStep: 2 // Parou em "Produto faturado"
             }
         ]
     }
@@ -848,7 +828,7 @@
             }
         ];
 
-        function generateRandomDates(sequence, allOnTime = false) {
+        function generateRandomDates(sequence) {
             const today = new Date();
             
             const baseDate = new Date(today);
@@ -862,12 +842,9 @@
             
             const realizado = new Date(baseDate);
             
-            let isDelayed = false;
-            if (!allOnTime) {
-                isDelayed = sequence % 2 === 1;
-                if (isDelayed) {
-                    realizado.setDate(previsto.getDate() + 5);
-                }
+            const isDelayed = sequence % 2 === 1; 
+            if (isDelayed) {
+                realizado.setDate(previsto.getDate() + 5); 
             }
             
             return {
@@ -948,7 +925,7 @@
                 
                 if (index < currentShipment.progressStep) {
                     status = 2;
-                    dates = generateRandomDates(step.sequence, currentShipment.allOnTime);
+                    dates = generateRandomDates(step.sequence);
                 } else if (index === currentShipment.progressStep) {
                     status = 1;
                     dates = {
@@ -982,7 +959,7 @@
                     const isDelayed = checkIfDelayed(step.dates);
                     statusText = isDelayed ? "Atrasado" : "No Prazo";
                     statusClass = isDelayed ? "delayed" : "on-time";
-                    dotClass = isDelayed ? "delayed" : "";
+                    dotClass = "";
                     contentClass = "";
                 } else if (step.status === 1) {
                     statusText = "Em Andamento";
@@ -1008,7 +985,9 @@
                             <span class="date-value pending">Pendente</span>
                         </div>
                         <div class="date-item">
-                            <span class="date-label">Realizado:</span>
+                            <span class="date-label">Realizado:
+
+                            </span>
                             <span class="date-value pending">Pendente</span>
                         </div>
                     `;
@@ -1045,7 +1024,6 @@
                     `;
                 }
                 
-                // Gera o HTML para o histórico (apenas para passos concluídos)
                 let historyHTML = '';
                 const historyId = `${shipmentId}-step-${index}`;
                 
@@ -1190,11 +1168,11 @@
                 
                 itemsList.appendChild(itemEntry);
             });
+            
             if (items.length > 0) {
                 document.getElementById(`item-${items[0].id}`).click();
             }
         }
-
         window.toggleShipment = toggleShipment;
         window.toggleHistory = toggleHistory;
         createItemsList();

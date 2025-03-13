@@ -21,7 +21,9 @@
             padding: 20px;
             margin: 0;
         }
-
+        .display-flex{
+            display: flex;
+        }
         .main-container {
             width: 100%;
             max-width: 1400px;
@@ -338,7 +340,6 @@
             height: 36px;
             border-radius: 50%;
             background-color: #0da9ef;
-            /* Already using the correct blue color */
             color: white;
             display: flex;
             align-items: center;
@@ -348,31 +349,28 @@
 
         .timeline-dot.delayed {
             background-color: #0da9ef;
-            /* Alterado de red para #0da9ef (azul) */
         }
 
         .timeline-dot.in-progress {
             background-color: #ffc449;
-            /* Updated to the specified yellow color */
         }
 
         .timeline-dot.pending {
             background-color: #d1d1d1;
-            /* Updated to the specified gray color */
             color: #666;
         }
 
         .timeline-content {
             flex: 1;
+            align-items: center;
             background-color: #f9f9f9;
             border-radius: 8px;
-            padding: 16px;
+            padding: 8px;
             border: 1px solid #eee;
         }
 
         .timeline-content.pending {
             background-color: #efefef;
-            /* Using the lighter gray from the specified colors */
             color: #999;
             border: 1px dashed #d1d1d1;
         }
@@ -381,12 +379,13 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 12px;
         }
 
         .timeline-title-container {
             display: flex;
+            flex: 1;
             align-items: center;
+            justify-content: space-between;
             gap: 10px;
         }
 
@@ -1067,7 +1066,7 @@
                     status: "completed",
                     statusText: "Concluído",
                     shipments: []
-                }, 
+                },
                 {
                     id: "ITEM-005",
                     lineNumber: "50",
@@ -1470,13 +1469,16 @@
                             <div class="timeline-header">
                                 <div class="timeline-title-container">
                                     <h3 class="timeline-title">${step.stepGeneralDescription}</h3>
-                                    <span class="timeline-status ${statusClass}">${statusText}</span>
+                                    <div class="display-flex">
+                                        <span class="timeline-status ${statusClass}">${statusText}</span>
+                                        <div class="timeline-dates">
+                                            ${datesHTML}
+                                        </div>
+                                    </div>    
                                 </div>
                                 ${historyIconHTML}
                             </div>
-                            <div class="timeline-dates">
-                                ${datesHTML}
-                            </div>
+                           
                             ${historyHTML}
                         </div>
                     `);

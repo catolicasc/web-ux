@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Datas e Prazos do Pedido</title>
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <!-- Ionicons -->
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <style>
         body {
@@ -21,9 +19,12 @@
             padding: 20px;
             margin: 0;
         }
-        .display-flex{
+
+        .display-flex {
             display: flex;
+            gap: 4px;
         }
+
         .main-container {
             width: 100%;
             max-width: 1400px;
@@ -607,19 +608,15 @@
 <body>
 
     <div class="main-container">
-        <!-- Coluna de itens -->
         <div class="items-column">
             <div class="items-header">
                 Itens
             </div>
             <div class="items-list" id="items-list">
-                <!-- Lista de itens será gerada aqui -->
             </div>
         </div>
 
-        <!-- Conteúdo do item selecionado -->
         <div class="item-content" id="item-content">
-            <!-- Estado inicial - nenhum item selecionado -->
             <div class="empty-state">
                 <div class="empty-state-icon">
                     <ion-icon name="cube-outline"></ion-icon>
@@ -873,7 +870,6 @@
                                 }
                             ]
                         }
-
                     ]
                 },
                 {
@@ -887,7 +883,7 @@
                     statusText: "Concluído",
                     shipments: [
                         {
-                            id: "REM-002",
+                            id: "REM-015", // Mudar a logica disso, esta quebrando se a remessa esta igual, ou garantir que remessas sao unicas
                             name: "#10452204",
                             status: "completed",
                             statusText: "Entregue",
@@ -1240,58 +1236,53 @@
                 }
             }
 
-            // Função para preencher a timeline vertical com histórico integrado
             function populateTimeline(shipmentId) {
                 const $timelineContainer = $(`#timeline-${shipmentId}`);
                 $timelineContainer.empty();
 
-                // Encontra a remessa correspondente
                 let currentShipment = null;
                 $.each(items, function (_, item) {
                     $.each(item.shipments, function (_, shipment) {
                         if (shipment.id === shipmentId) {
                             currentShipment = shipment;
-                            return false; // Break the inner loop
+                            return false; // Break loop interno
                         }
                     });
-                    if (currentShipment) return false; // Break the outer loop
+                    if (currentShipment) return false; // Break loop externo
                 });
 
                 if (!currentShipment) return;
 
-                // Organiza os passos com base no histórico da remessa
                 const stepsWithStatus = [];
+                let lastStep = null;
 
-                // Mapeia o histórico para os passos da timeline
                 $.each(orderSteps, function (_, step) {
                     let status = 0; // 0: pendente, 1: em andamento, 2: concluído
                     let historyEntry = null;
 
-                    // Procura a entrada correspondente no histórico
                     if (currentShipment.history) {
                         $.each(currentShipment.history, function (_, entry) {
                             if (entry.code === step.code) {
                                 historyEntry = entry;
-                                return false; // Break the loop
+                                return false; // Break loop
                             }
                         });
                     }
 
-                    // Determina o status com base na progressStep da remessa
                     const stepIndex = step.sequence;
-
                     if (stepIndex < currentShipment.progressStep) {
-                        // Passo concluído
                         status = 2;
                     } else if (stepIndex === currentShipment.progressStep) {
-                        // Passo atual (em andamento)
                         status = 1;
                     } else {
-                        // Passo futuro (pendente)
                         status = 0;
                     }
 
-                    // Adiciona o passo com seu status e dados do histórico
+                    // Verifica o último passo concluído
+                    if (status === 2) {
+                        lastStep = step;
+                    }
+
                     stepsWithStatus.push({
                         ...step,
                         status,
@@ -1301,196 +1292,89 @@
 
                 const reversedSteps = stepsWithStatus.slice().reverse();
 
-                // Preenche a timeline vertical com os ícones, datas e informações
-                $.each(reversedSteps, function (index, step) {
-                    let statusText, statusClass, dotClass, contentClass;
-
+                $.each(reversedSteps, function (_, step) {
+                    let statusClass, dotClass, contentClass;
                     if (step.status === 2) {
-                        // Passo concluído
-                        const isDelayed = step.historyEntry && step.historyEntry.dates ?
-                            checkIfDelayed(step.historyEntry.dates) : false;
-                        statusText = isDelayed ? "Atrasado" : "No Prazo";
-                        statusClass = isDelayed ? "delayed" : "on-time";
-                        dotClass = ""; // Sem classe adicional, usará a cor padrão azul
+                        statusClass = "on-time";
+                        dotClass = "";
                         contentClass = "";
                     } else if (step.status === 1) {
-                        // Passo em andamento - amarelo
-                        statusText = "Em Andamento";
                         statusClass = "in-progress";
                         dotClass = "in-progress";
                         contentClass = "";
                     } else {
-                        // Passo pendente - cinza
-                        statusText = "Pendente";
                         statusClass = "pending";
                         dotClass = "pending";
                         contentClass = "pending";
                     }
 
-                    // Gera o HTML para as datas
-                    let datesHTML = '';
-
-                    if (step.status === 0) {
-                        // Passo pendente - mostra apenas a data prevista (se disponível)
-                        const previsto = step.historyEntry && step.historyEntry.dates ?
-                            step.historyEntry.dates.previsto : "Pendente";
-
-                        datesHTML = `
-                            <div class="date-item">
-                                <span class="date-label">Previsto:</span>
-                                <span class="date-value">${previsto}</span>
-                            </div>
-                            <div class="date-item">
-                                <span class="date-label">Revisado:</span>
-                                <span class="date-value pending">Pendente</span>
-                            </div>
-                            <div class="date-item">
-                                <span class="date-label">Realizado:</span>
-                                <span class="date-value pending">Pendente</span>
-                            </div>
-                        `;
-                    } else if (step.status === 1) {
-                        // Passo em andamento - mostra previsto e revisado
-                        const previsto = step.historyEntry && step.historyEntry.dates ?
-                            step.historyEntry.dates.previsto : "Pendente";
-                        const revisado = step.historyEntry && step.historyEntry.dates ?
-                            step.historyEntry.dates.revisado : "Pendente";
-
-                        datesHTML = `
-                            <div class="date-item">
-                                <span class="date-label">Previsto:</span>
-                                <span class="date-value">${previsto}</span>
-                            </div>
-                            <div class="date-item">
-                                <span class="date-label">Revisado:</span>
-                                <span class="date-value">${revisado}</span>
-                            </div>
-                            <div class="date-item">
-                                <span class="date-label">Realizado:</span>
-                                <span class="date-value pending">Em andamento</span>
-                            </div>
-                        `;
-                    } else {
-                        // Passo concluído - mostra todas as datas
-                        const previsto = step.historyEntry && step.historyEntry.dates ?
-                            step.historyEntry.dates.previsto : "Pendente";
-                        const revisado = step.historyEntry && step.historyEntry.dates ?
-                            step.historyEntry.dates.revisado : "Pendente";
-                        const realizado = step.historyEntry && step.historyEntry.dates ?
-                            step.historyEntry.dates.realizado : "Pendente";
-
-                        const isDelayed = step.historyEntry && step.historyEntry.dates ?
-                            checkIfDelayed(step.historyEntry.dates) : false;
-
-                        datesHTML = `
-                            <div class="date-item">
-                                <span class="date-label">Previsto:</span>
-                                <span class="date-value">${previsto}</span>
-                            </div>
-                            <div class="date-item">
-                                <span class="date-label">Revisado:</span>
-                                <span class="date-value">${revisado}</span>
-                            </div>
-                            <div class="date-item">
-                                <span class="date-label">Realizado:</span>
-                                <span class="date-value ${isDelayed ? 'delayed' : ''}">${realizado}</span>
-                            </div>
-                        `;
-                    }
-
-                    // Gera o HTML para o histórico
                     let historyHTML = '';
-                    const historyId = `${step.code}`;
+                    let historyId = `${shipmentId}-${step.code}`; // ID único por shipment + código do histórico
 
-                    // Ícone de histórico para todos, mas desabilitado para não concluídos
+                    let isLastStep = lastStep && lastStep.code === step.code;
+
                     let historyIconHTML = '';
                     if (step.status === 2 && step.historyEntry) {
-                        // Passo concluído com histórico - ícone habilitado
                         historyIconHTML = `
-                            <ion-icon name="time-outline" class="history-toggle-icon" id="history-toggle-${historyId}"></ion-icon>
-                        `;
+                <ion-icon name="time-outline" class="history-toggle-icon ${isLastStep ? 'active' : ''}" id="history-toggle-${historyId}"></ion-icon>
+            `;
 
-                        // Gera o conteúdo do histórico com base nos dados do historyEntry
                         let notesHTML = '';
                         if (step.historyEntry.noteList && step.historyEntry.noteList.length > 0) {
-                            console.log(step.historyEntry)
                             $.each(step.historyEntry.noteList, function (_, note) {
-                                if (note.code == "INVOICE") {
-                                    notesHTML += `<p class="history-text"><strong>${note.description}</strong> 
-                                                <a href="${invoiceUrlStart}${note.content}${invoiceUrlEnd}" target="_blank">${note.content}</a>
-                                            </p>`;
-                                } else if (note.code == "TRACKING_URL") {
-                                    notesHTML += `<p class="history-text"><strong>${note.description}</strong> 
-                                                <a href="${note.content}" target="_blank">Acesse o site aqui     <ion-icon name="search-outline" class="search-icon"></ion-icon>
-</a>
-                                            </p>`;
-                                }
-                                else {
-                                    notesHTML += `<p class="history-text"><strong>${note.description}</strong> ${note.content}</p>`;
-                                }
+                                notesHTML += `<p class="history-text"><strong>${note.description}</strong> ${note.content}</p>`;
                             });
                         }
 
                         historyHTML = `
-                            <div class="history-section" id="history-${historyId}">
-                                <div class="history-item">
-                                    <div class="history-icon">
-                                        <ion-icon name="${step.icon}"></ion-icon>
-                                    </div>
-                                    <div class="history-content">
-                                        <div class="history-datetime">${step.historyEntry.dateTime}</div>
-                                        <p class="history-text">${step.historyEntry.description}</p>
-                                        ${step.historyEntry.quantity ? `<p class="history-text"><strong>Quantidade:</strong> ${step.historyEntry.quantity}</p>` : ""}
-                                        ${step.historyEntry.document ? `<p class="history-text"><strong>Documento:</strong> ${step.historyEntry.document}</p>` : ''}
-                                        ${notesHTML}
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+                <div class="history-section ${isLastStep ? 'active' : ''}" id="history-${historyId}">
+                    <div class="history-item">
+                        <div class="history-icon">
+                            <ion-icon name="${step.icon}"></ion-icon>
+                        </div>
+                        <div class="history-content">
+                            <div class="history-datetime">${step.historyEntry.dateTime}</div>
+                            <p class="history-text">${step.historyEntry.description}</p>
+                            ${notesHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
                     } else {
-                        // Passo não concluído ou sem histórico - ícone desabilitado
-                        historyIconHTML = `
-                            <ion-icon name="time-outline" class="history-toggle-icon disabled"></ion-icon>
-                        `;
+                        historyIconHTML = `<ion-icon name="time-outline" class="history-toggle-icon disabled"></ion-icon>`;
                     }
 
-                    // Cria o elemento da timeline vertical
                     const $timelineStep = $('<div>', {
                         class: 'timeline-step-vertical'
                     });
 
                     $timelineStep.html(`
-                        <div class="timeline-dot-container">
-                            <div class="timeline-dot ${dotClass}">
-                                <ion-icon name="${step.icon}"></ion-icon>
-                            </div>
-                        </div>
-                        <div class="timeline-content ${contentClass}">
-                            <div class="timeline-header">
-                                <div class="timeline-title-container">
-                                    <h3 class="timeline-title">${step.stepGeneralDescription}</h3>
-                                    <div class="display-flex">
-                                        <span class="timeline-status ${statusClass}">${statusText}</span>
-                                        <div class="timeline-dates">
-                                            ${datesHTML}
-                                        </div>
-                                    </div>    
-                                </div>
-                                ${historyIconHTML}
-                            </div>
-                           
-                            ${historyHTML}
-                        </div>
-                    `);
+            <div class="timeline-dot-container">
+                <div class="timeline-dot ${dotClass}">
+                    <ion-icon name="${step.icon}"></ion-icon>
+                </div>
+            </div>
+            <div class="timeline-content ${contentClass}">
+                <div class="timeline-header">
+                    <div class="timeline-title-container">
+                        <h3 class="timeline-title">${step.stepGeneralDescription}</h3>
+                        <div class="display-flex">
+                            <span class="timeline-status ${statusClass}">${statusClass === "on-time" ? "No Prazo" : "Pendente"}</span>
+                        </div>    
+                    </div>
+                    ${historyIconHTML}
+                </div>
+                ${historyHTML}
+            </div>
+        `);
 
                     $timelineContainer.append($timelineStep);
                 });
 
-                // Adiciona eventos de clique aos ícones de histórico
                 addHistoryToggleEvents();
             }
 
-            // Função para adicionar eventos de clique aos ícones de histórico
+            // Adicionar eventos de toggle para os históricos
             function addHistoryToggleEvents() {
                 $('.history-toggle-icon:not(.disabled)').each(function () {
                     if (!$(this).data('event-added')) {
@@ -1502,6 +1386,7 @@
                     }
                 });
             }
+
 
             // Função para alternar a exibição de uma remessa
             function toggleShipment(shipmentId) {

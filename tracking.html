@@ -640,16 +640,16 @@
                 {
                     id: "ITEM-001",
                     lineNumber: "10",
-                    code: "1004579",
+                    code: "16252855",
                     description: "BOBINA DE DISPARO BD 220-240 Vca/250 Vcc PARA DISJUNTOR CAIXA MOLDADA ACW100-800",
                     unit: "UN",
                     quantity: 12,
                     status: "in-progress",
                     statusText: "Em Andamento",
                     shipments: [
-                    {
-                            id: "REM-002",
-                            name: "#10452204",
+                        {
+                            id: "REM-001",
+                            name: "#1008884191",
                             status: "completed",
                             statusText: "Entregue",
                             date: "21/01/2025",
@@ -780,7 +780,7 @@
                                             "code": "PRODUCTION_ORDER",
                                             "description": "Ordem de Produção:",
                                             "content": "OP-626456"
-                                        }                                       
+                                        }
                                     ],
                                     "dates": {
                                         "previsto": "13/01/2025",
@@ -816,8 +816,8 @@
                             ]
                         },
                         {
-                            id: "REM-003",
-                            name: "#10452204",
+                            id: "REM-002",
+                            name: "#6007927736",
                             status: "delayed",
                             statusText: "Atrasado",
                             date: "21/01/2025",
@@ -825,9 +825,8 @@
                             quantity: 11,
                             isDelayed: false,
                             details: "Produção está atrasada",
-                            progressStep: 2,
+                            progressStep: 1,
                             history: [
-                                
                                 {
                                     "code": "P_PRODUCTION",
                                     "description": "Produzido",
@@ -840,12 +839,12 @@
                                             "code": "PRODUCTION_ORDER",
                                             "description": "Ordem de Produção:",
                                             "content": "OP-626457"
-                                        }                                       
+                                        }
                                     ],
                                     "dates": {
                                         "previsto": "13/01/2025",
-                                        "revisado": "13/01/2025",
-                                        "realizado": "13/01/2025"
+                                        "revisado": "15/01/2025",
+                                        "realizado": null
                                     }
                                 },
                                 {
@@ -875,13 +874,13 @@
                                 }
                             ]
                         }
-                    
+
                     ]
                 },
                 {
                     id: "ITEM-002",
                     lineNumber: "20",
-                    code: "1004578",
+                    code: "10452204",
                     description: "RELE SOBRECARGA RW27-1D3-U017 CINZA 11-17A",
                     unit: "UN",
                     quantity: 20,
@@ -1050,25 +1049,37 @@
                 {
                     id: "ITEM-003",
                     lineNumber: "30",
-                    code: "1004580",
+                    code: "10583680",
                     description: "DISJUNTOR ACW250H-ATU200-3",
-                    unit: "PC",
-                    quantity: 200,
-                    status: "delayed",
-                    statusText: "Atrasado",
+                    unit: "UN",
+                    quantity: 4,
+                    status: "completed",
+                    statusText: "Concluído",
                     shipments: []
                 },
                 {
                     id: "ITEM-004",
                     lineNumber: "40",
-                    code: "1004581",
+                    code: "11111344",
+                    description: "BOBINA DE DISPARO BD 220-240 Vca/250 Vcc PARA DISJUNTOR CAIXA MOLDADA ACW100-800",
+                    unit: "UN",
+                    quantity: 4,
+                    status: "completed",
+                    statusText: "Concluído",
+                    shipments: []
+                }, 
+                {
+                    id: "ITEM-005",
+                    lineNumber: "50",
+                    code: "11424575",
                     description: "MODULO DE FUGA A TERRA FT 220-460V50/60Hz 83481172603 PARA DISJUNTOR CAIXA MOLDADA ACW250",
-                    unit: "PC",
-                    quantity: 50,
-                    status: "in-progress",
-                    statusText: "Em Andamento",
+                    unit: "UN",
+                    quantity: 4,
+                    status: "completed",
+                    statusText: "Concluído",
                     shipments: []
                 }
+
             ];
 
             const orderSteps = [
@@ -1208,7 +1219,7 @@
                 return `
                     <div class="card">
                         <div class="card-header">
-                            ${hasShipment > 1 ? `Remessa` : `Timeline` }
+                            ${hasShipment > 1 ? `Remessa` : `Timeline`}
                         </div>
                         <div class="card-content">
                             <div class="timeline-vertical" id="timeline-${shipmentId}"></div>
@@ -1409,13 +1420,13 @@
                                     notesHTML += `<p class="history-text"><strong>${note.description}</strong> 
                                                 <a href="${invoiceUrlStart}${note.content}${invoiceUrlEnd}" target="_blank">${note.content}</a>
                                             </p>`;
-                                }else if(note.code == "TRACKING_URL"){
+                                } else if (note.code == "TRACKING_URL") {
                                     notesHTML += `<p class="history-text"><strong>${note.description}</strong> 
                                                 <a href="${note.content}" target="_blank">Acesse o site aqui     <ion-icon name="search-outline" class="search-icon"></ion-icon>
 </a>
                                             </p>`;
                                 }
-                                 else {
+                                else {
                                     notesHTML += `<p class="history-text"><strong>${note.description}</strong> ${note.content}</p>`;
                                 }
                             });

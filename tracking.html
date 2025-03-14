@@ -8,18 +8,6 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f8f9fa;
-            flex-direction: column;
-            padding: 20px;
-            margin: 0;
-        }
-
         .display-flex {
             display: flex;
             gap: 4px;
@@ -1448,14 +1436,11 @@
                     </div>
                 `);
 
-                // Adiciona eventos de clique aos cabeçalhos de remessa
                 $('.shipment-header').on('click', function () {
                     const shipmentId = $(this).data('shipment-id');
                     toggleShipment(shipmentId);
                 });
             }
-
-            // Função para criar a lista de itens
             function createItemsList() {
                 const $itemsList = $('#items-list');
 
@@ -1475,26 +1460,17 @@
                     `);
 
                     $itemEntry.on('click', function () {
-                        // Remove a classe active de todos os itens
                         $('.item-entry').removeClass('active');
-
-                        // Adiciona a classe active ao item clicado
                         $(this).addClass('active');
-
-                        // Exibe o conteúdo do item
                         showItemContent(item);
                     });
 
                     $itemsList.append($itemEntry);
                 });
-
-                // Seleciona o primeiro item por padrão
                 if (items.length > 0) {
                     $(`#item-${items[0].id}`).click();
                 }
             }
-
-            // Inicializa a lista de itens
             createItemsList();
         });
     </script>

@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+ <xsl:template match="/">
+  <html>
+   <head>
+    <style>
+     body {
+       font-family: Arial, Helvetica, sans-serif;
+       color: #333;
+       line-height: 1.6;
+       margin: 20px;
+     }
+     h2 {
+       color: #005ea2;
+     }
+     .table-container {
+       width: 100%;
+       padding: 15px;
+       border: 1px solid #ddd;
+       border-radius: 8px;
+       margin-bottom: 20px;
+       background-color: #fafafa;
+     }
+     table {
+       width: 100%;
+       border-collapse: collapse;
+     }
+     th, td {
+       padding: 10px;
+       border-bottom: 1px solid #ddd;
+       text-align: left;
+     }
+     th {
+       background-color: #f0f0f0;
+     }
+     .error {
+       color: #d9534f;
+       font-weight: bold;
+     }
+     .security-warning {
+       background-color: #fff3cd;
+       border: 1px solid #ffcc00;
+       color: #856404;
+       padding: 15px;
+       border-radius: 8px;
+     }
+    </style>
+   </head>
+   <body>
+    <h2>Request for API Access – EASY</h2>
+
+    <div class="table-container">
+     <h3>Support Team Validation</h3>
+     <table>
+      <tr><th>Status</th><th>Name</th><th>Date</th><th>Observations</th></tr>
+      <tr><td>Approved</td><td></td><td></td><td></td></tr>
+     </table>
+    </div>
+
+    <div class="table-container">
+     <h3>Business Area Validation</h3>
+     <table>
+      <tr><th>Status</th><th>Name</th><th>Date</th><th>Observations</th></tr>
+      <tr><td>Approved</td><td></td><td></td><td></td></tr>
+     </table>
+    </div>
+
+    <div class="table-container">
+     <h3>Company Information</h3>
+     <table>
+      <tr><th>Name</th><th>Email</th><th>Customer ID</th></tr>
+      <tr>
+       <td><xsl:value-of select="RequestApiAccessEasy/@companyName" /></td>
+       <td><xsl:value-of select="RequestApiAccessEasy/@companyEmail" /></td>
+       <td><xsl:value-of select="RequestApiAccessEasy/@customerId" /></td>
+      </tr>
+     </table>
+    </div>
+
+    <div class="table-container">
+     <h3>Contact Person</h3>
+     <table>
+      <tr><th>Name</th><th>Email</th></tr>
+      <tr>
+       <td><xsl:value-of select="RequestApiAccessEasy/@contactName" /></td>
+       <td><xsl:value-of select="RequestApiAccessEasy/@contactEmail" /></td>
+      </tr>
+     </table>
+    </div>
+
+    <div class="table-container">
+     <h3>Location</h3>
+     <table>
+      <tr>
+       <th>Address</th><th>City</th><th>State</th><th>Country</th><th>Zip Code</th>
+      </tr>
+      <tr>
+       <td><xsl:value-of select="RequestApiAccessEasy/@address" /></td>
+       <td><xsl:value-of select="RequestApiAccessEasy/@city" /></td>
+       <td><xsl:value-of select="RequestApiAccessEasy/@state" /></td>
+       <td><xsl:value-of select="RequestApiAccessEasy/@countryIsoCode" /></td>
+       <td><xsl:value-of select="RequestApiAccessEasy/@zipCode" /></td>
+      </tr>
+     </table>
+    </div>
+
+    <div class="table-container">
+     <h3>Requested Services</h3>
+     <table>
+      <tr><th>Services</th></tr>
+      <xsl:for-each select="RequestApiAccessEasy/apiServices/apiService">
+       <tr><td><xsl:value-of select="." /></td></tr>
+      </xsl:for-each>
+     </table>
+
+     <h4>Visibility</h4>
+     <table>
+      <tr><th>Visible To</th></tr>
+      <xsl:for-each select="RequestApiAccessEasy/apiVisibility/apiVisible">
+       <tr><td><xsl:value-of select="." /></td></tr>
+      </xsl:for-each>
+     </table>
+
+     <h4>Other Details</h4>
+     <table>
+      <tr><th>Purpose</th><th>Additional Rate Limit</th></tr>
+      <tr>
+       <td><xsl:value-of select="RequestApiAccessEasy/@apiPurpose" /></td>
+       <td><xsl:value-of select="RequestApiAccessEasy/@apiRateLimit" /></td>
+      </tr>
+     </table>
+    </div>
+
+    <div class="table-container">
+     <h3>Credentials (To Be Completed)</h3>
+     <table>
+      <tr><th>Client</th><th>Secret</th><th>Proxy-API-Key</th><th>Login</th><th>Password</th></tr>
+      <tr>
+       <td><span class="error">Required</span></td>
+       <td><span class="error">Required</span></td>
+       <td><span class="error">Required</span></td>
+       <td><span class="error">Required</span></td>
+       <td><span class="error">Required</span></td>
+      </tr>
+     </table>
+    </div>
+
+    <div class="security-warning">
+     <h3>Security Notice</h3>
+     <p><strong>Attention:</strong> The credentials listed above are sensitive and must be protected.</p>
+     <ul>
+      <li><strong>Client:</strong> Keep confidential.</li>
+      <li><strong>Secret:</strong> Never share publicly.</li>
+      <li><strong>Proxy-API-Key:</strong> Use only in secure environments.</li>
+      <li><strong>Login:</strong> Do not share with unauthorized users.</li>
+      <li><strong>Password:</strong> Store securely.</li>
+     </ul>
+     <p>Please follow your organization's security policy when handling this information.</p>
+    </div>
+   </body>
+  </html>
+ </xsl:template>
+</xsl:stylesheet>

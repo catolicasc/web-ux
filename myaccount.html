@@ -1,262 +1,203 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WEG - Minha Conta</title>
-  <link rel="stylesheet" href="myaccount.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Minha Conta</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      margin: 0;
+      background-color: #f6f9fc;
+    }
+    header {
+      padding: 20px;
+      background-color: white;
+      font-size: 24px;
+      font-weight: bold;
+      border-bottom: 1px solid #ddd;
+    }
+    .container {
+      display: flex;
+      padding: 20px;
+    }
+    .sidebar {
+      width: 280px;
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-right: 20px;
+      height: fit-content;
+    }
+    .sidebar h3 {
+      margin-top: 0;
+      font-size: 16px;
+      color: #666;
+    }
+    .search-box {
+      margin-bottom: 20px;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .favorite-item {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #f7f7f7;
+    }
+    .favorite-item span {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .main {
+      flex: 1;
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .main h2 {
+      font-size: 16px;
+      color: #666;
+    }
+    .main h2 span {
+      color: #222;
+    }
+    .menu {
+      margin: 20px 0;
+    }
+    .menu button {
+      margin: 4px;
+      padding: 10px 15px;
+      border: none;
+      background-color: #f0f4ff;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .menu .selected {
+      background-color: #cce2ff;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+      font-size: 14px;
+    }
+    th {
+      background-color: #f0f4ff;
+      color: #333;
+    }
+    .status {
+      background-color: #ffedc2;
+      color: #a86c00;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 13px;
+      display: inline-block;
+    }
+  </style>
 </head>
 <body>
+
+  <header>MINHA CONTA</header>
+
   <div class="container">
-    <header class="page-header">
-      <h1>MINHA CONTA</h1>
-      <div class="avatar">L</div>
-    </header>
-
-    <div class="main-content">
-      <aside class="sidebar">
-        <div class="sidebar-section">
-          <h2>Cotação EASY</h2>
-          <div class="search-container">
-            <input type="text" placeholder="Pesquisar núm. cotação...">
-            <button class="search-button"><i class="fas fa-search"></i></button>
-          </div>
-        </div>
-        
-        <div class="sidebar-section">
-          <div class="section-header">
-            <h2>Favoritos</h2>
-            <a href="#" class="link-button">Editar</a>
-          </div>
-          
-          <div class="favorites-list">
-            <div class="favorite-item">
-              <div class="favorite-header">
-                <div class="favorite-title">
-                  <i class="far fa-clock"></i>
-                  <span>Pedidos em Aberto</span>
-                </div>
-                <i class="fas fa-star"></i>
-              </div>
-              <div class="favorite-description">
-                Acesse informações e funcionalidades
-              </div>
-            </div>
-            
-            <div class="favorite-item">
-              <div class="favorite-header">
-                <div class="favorite-title">
-                  <i class="far fa-clock"></i>
-                  <span>Pedidos em Aberto</span>
-                </div>
-                <i class="fas fa-star"></i>
-              </div>
-              <div class="favorite-description">
-                Acesse informações e funcionalidades
-              </div>
-            </div>
-            
-            <div class="favorite-item">
-              <div class="favorite-header">
-                <div class="favorite-title">
-                  <i class="far fa-clock"></i>
-                  <span>Pedidos em Aberto</span>
-                </div>
-                <i class="fas fa-star"></i>
-              </div>
-              <div class="favorite-description">
-                Acesse informações e funcionalidades
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="sidebar-section">
-          <div class="section-header">
-            <h2>Ações</h2>
-            <a href="#" class="link-button">Ver tudo</a>
-          </div>
-          
-          <div class="search-container">
-            <input type="text" placeholder="Pesquisar uma ação...">
-            <button class="search-button"><i class="fas fa-search"></i></button>
-          </div>
-        </div>
-      </aside>
-
-      <main class="content">
-        <div class="client-info">
-          <span class="client-label">cliente:</span>
-          <span class="client-name">Fulano de Tal Lt</span>
-        </div>
-
-        <div class="nav-buttons">
-          <button class="nav-button">
-            <i class="fas fa-comment-alt"></i>
-            Mensagens
-          </button>
-          <button class="nav-button">
-            <i class="fas fa-briefcase"></i>
-            Duplicatas em Aberto
-          </button>
-          <button class="nav-button">
-            <i class="fas fa-file-alt"></i>
-            Notas Fiscais
-          </button>
-          <button class="nav-button">
-            <i class="fas fa-shopping-bag"></i>
-            Pedidos
-          </button>
-          <button class="nav-button">
-            <i class="fas fa-file-alt"></i>
-            Cotações
-          </button>
-          <button class="nav-button">
-            <i class="fas fa-file-alt"></i>
-            Minhas Cotações
-          </button>
-          <button class="nav-button">
-            <i class="fas fa-star"></i>
-            Favoritos
-          </button>
-        </div>
-
-        <div class="table-container desktop-only">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Data de Criação</th>
-                <th>Número da Cotação</th>
-                <th>Número da Revisão</th>
-                <th>Referência do Cliente</th>
-                <th>Nome do Cliente</th>
-                <th>Status da Cotação</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>19/02/2025</td>
-                <td class="quote-number">23522180</td>
-                <td>0</td>
-                <td>Eleno Bucacel Lt</td>
-                <td>Eleno Bucacel Lt</td>
-                <td><span class="status-badge">Em Elaboração</span></td>
-              </tr>
-              <tr class="alt-row">
-                <td>19/02/2025</td>
-                <td class="quote-number">23522178</td>
-                <td>0</td>
-                <td>Eleno Bucacel Lt</td>
-                <td>Eleno Bucacel Lt</td>
-                <td><span class="status-badge">Em Elaboração</span></td>
-              </tr>
-              <tr>
-                <td>19/02/2025</td>
-                <td class="quote-number">23522176</td>
-                <td>0</td>
-                <td>Eleno Bucacel Lt</td>
-                <td>Eleno Bucacel Lt</td>
-                <td><span class="status-badge">Em Elaboração</span></td>
-              </tr>
-              <tr class="alt-row">
-                <td>19/02/2025</td>
-                <td class="quote-number">23522176</td>
-                <td>0</td>
-                <td>Eleno Bucacel Lt</td>
-                <td>Eleno Bucacel Lt</td>
-                <td><span class="status-badge">Em Elaboração</span></td>
-              </tr>
-              <tr>
-                <td>19/02/2025</td>
-                <td class="quote-number">23522176</td>
-                <td>0</td>
-                <td>Eleno Bucacel Lt</td>
-                <td>Eleno Bucacel Lt</td>
-                <td><span class="status-badge">Em Elaboração</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="cards-container mobile-only">
-          <div class="quote-card">
-            <div class="card-header">
-              <div class="card-title">
-                <div class="quote-number">23522180</div>
-                <div class="quote-date">Data: 19/02/2025</div>
-              </div>
-              <span class="status-badge">Em Elaboração</span>
-            </div>
-            <div class="card-details">
-              <div><span class="detail-label">Cliente:</span> Eleno Bucacel Lt</div>
-              <div><span class="detail-label">Revisão:</span> 0</div>
-            </div>
-          </div>
-          
-          <div class="quote-card">
-            <div class="card-header">
-              <div class="card-title">
-                <div class="quote-number">23522178</div>
-                <div class="quote-date">Data: 19/02/2025</div>
-              </div>
-              <span class="status-badge">Em Elaboração</span>
-            </div>
-            <div class="card-details">
-              <div><span class="detail-label">Cliente:</span> Eleno Bucacel Lt</div>
-              <div><span class="detail-label">Revisão:</span> 0</div>
-            </div>
-          </div>
-          
-          <div class="quote-card">
-            <div class="card-header">
-              <div class="card-title">
-                <div class="quote-number">23522176</div>
-                <div class="quote-date">Data: 19/02/2025</div>
-              </div>
-              <span class="status-badge">Em Elaboração</span>
-            </div>
-            <div class="card-details">
-              <div><span class="detail-label">Cliente:</span> Eleno Bucacel Lt</div>
-              <div><span class="detail-label">Revisão:</span> 0</div>
-            </div>
-          </div>
-          
-          <div class="quote-card">
-            <div class="card-header">
-              <div class="card-title">
-                <div class="quote-number">23522176</div>
-                <div class="quote-date">Data: 19/02/2025</div>
-              </div>
-              <span class="status-badge">Em Elaboração</span>
-            </div>
-            <div class="card-details">
-              <div><span class="detail-label">Cliente:</span> Eleno Bucacel Lt</div>
-              <div><span class="detail-label">Revisão:</span> 0</div>
-            </div>
-          </div>
-          
-          <div class="quote-card">
-            <div class="card-header">
-              <div class="card-title">
-                <div class="quote-number">23522176</div>
-                <div class="quote-date">Data: 19/02/2025</div>
-              </div>
-              <span class="status-badge">Em Elaboração</span>
-            </div>
-            <div class="card-details">
-              <div><span class="detail-label">Cliente:</span> Eleno Bucacel Lt</div>
-              <div><span class="detail-label">Revisão:</span> 0</div>
-            </div>
-          </div>
-        </div>
-      </main>
+    <div class="sidebar">
+      <h3>Cotação EASY</h3>
+      <div class="search-box">
+        <input type="text" placeholder="Pesquisar núm. cotação...">
+      </div>
+      <h3>Favoritos <a href="#" style="float:right; font-size: 12px;">Editar</a></h3>
+      <div class="favorite-item">
+        <span>Pedidos em Aberto</span>
+        Acesse informações e funcionalidades
+      </div>
+      <div class="favorite-item">
+        <span>Pedidos em Aberto</span>
+        Acesse informações e funcionalidades
+      </div>
+      <div class="favorite-item">
+        <span>Pedidos em Aberto</span>
+        Acesse informações e funcionalidades
+      </div>
+      <h3>Ações <a href="#" style="float:right; font-size: 12px;">Ver tudo</a></h3>
+      <div class="search-box">
+        <input type="text" placeholder="Pesquisar uma ação...">
+      </div>
     </div>
 
-    <div class="floating-button">
-      <i class="fas fa-bolt"></i>
-      <span class="button-text">COMPRA FÁCIL</span>
+    <div class="main">
+      <h2>cliente: <span>Fulano de Tal Lt</span></h2>
+      
+      <div class="menu">
+        <button>Mensagens</button>
+        <button>Duplicatas em Aberto</button>
+        <button>Notas Fiscais</button>
+        <button>Pedidos</button>
+        <button>Cotações</button>
+        <button class="selected">Minhas Cotações</button>
+        <button>Favoritos</button>
+        <button>RFQ Online</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Data de Criação</th>
+              <th>Número da Cotação</th>
+              <th>Número da Revisão</th>
+              <th>Referência do Cliente</th>
+              <th>Nome do Cliente</th>
+              <th>Status da Cotação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>19/02/2025</td>
+              <td>23522180</td>
+              <td>0</td>
+              <td>Eleno Bucacel Lt</td>
+              <td>Eleno Bucacel Lt</td>
+              <td><span class="status">Em Elaboração</span></td>
+            </tr>
+            <tr>
+              <td>19/02/2025</td>
+              <td>23522178</td>
+              <td>0</td>
+              <td>Eleno Bucacel Lt</td>
+              <td>Eleno Bucacel Lt</td>
+              <td><span class="status">Em Elaboração</span></td>
+            </tr>
+            <tr>
+              <td>19/02/2025</td>
+              <td>23522176</td>
+              <td>0</td>
+              <td>Eleno Bucacel Lt</td>
+              <td>Eleno Bucacel Lt</td>
+              <td><span class="status">Em Elaboração</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
+
 </body>
 </html>

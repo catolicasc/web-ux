@@ -8,6 +8,56 @@
       box-sizing: border-box;
       font-family: Arial, sans-serif;
     }
+    @media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .main {
+    width: 100%;
+  }
+
+  .menu {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .menu button {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  table {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  th, td {
+    padding: 8px;
+  }
+
+  .menu button {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .favorite-item span {
+    font-size: 14px;
+  }
+
+  .status {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
+
     body {
       margin: 0;
       background-color: #f6f9fc;

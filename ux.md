@@ -55,4 +55,4 @@ Alguns times priorizam funcionalidades (usabilidade), mas esquecem da aparência
 1. **Maior fidelização de clientes:** ao melhorar continuamente a experiência, os usuários ficam mais satisfeitos e leais à marca.  
 2. **Melhor retorno sobre investimento (ROI):** uma UX bem planejada reduz custos de suporte, aumenta conversões e gera valor mensurável para o negócio.  
 
-✨ Além disso, melhora o entendimento sobre o comportamento dos usuários e garante **consistência entre diferentes dispositivos e plataformas.**
+Além disso, melhora o entendimento sobre o comportamento dos usuários e garante **consistência entre diferentes dispositivos e plataformas.**

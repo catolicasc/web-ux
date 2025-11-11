@@ -1,5 +1,3 @@
----
-
 ### **1. O que diferencia a experiência do usuário (UX) do design da experiência (UX Design)?**
 
 **Resposta:**  

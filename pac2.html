@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Líderes e Devs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="min-h-screen bg-slate-950 text-slate-100">
+    <header class="sticky top-0 z-10 border-b border-slate-800 bg-slate-950/80 backdrop-blur">
+      <div class="mx-auto max-w-6xl px-4 py-4">
+        <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h1 class="text-2xl font-semibold tracking-tight">Times: Líderes e Devs</h1>
+            <p class="text-sm text-slate-400">
+              Cards por líder, com membros e tema (quando informado).
+            </p>
+          </div>
+
+          <div class="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-center">
+            <div class="relative w-full md:w-80">
+              <input
+                id="search"
+                type="text"
+                placeholder="Buscar por nome ou matrícula..."
+                class="w-full rounded-xl border border-slate-800 bg-slate-900/60 px-4 py-2 text-sm text-slate-100 placeholder:text-slate-500 outline-none focus:border-slate-600"
+              />
+              <div class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-500">
+                ⌕
+              </div>
+            </div>
+
+            <select
+              id="tema"
+              class="w-full rounded-xl border border-slate-800 bg-slate-900/60 px-3 py-2 text-sm text-slate-100 outline-none focus:border-slate-600 md:w-56"
+            >
+              <option value="__ALL__">Todos os temas</option>
+            </select>
+
+            <div
+              id="stats"
+              class="rounded-xl border border-slate-800 bg-slate-900/40 px-3 py-2 text-sm text-slate-300"
+            >
+              —
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-4 py-6">
+      <div id="grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+
+      <div id="empty" class="hidden rounded-2xl border border-slate-800 bg-slate-900/30 p-8 text-center">
+        <p class="text-slate-200">Nenhum resultado com os filtros atuais.</p>
+        <p class="mt-1 text-sm text-slate-400">Tente limpar a busca ou trocar o tema.</p>
+      </div>
+    </main>
+
+    <script>
+      const data = [
+        {
+          lider: { matricula: "1332436", nome: "GUSTAVO HRECZUCK" },
+          membros: [
+            { matricula: "1332669", nome: "ANDRÉ FELIPE WITT" },
+            { matricula: "1331991", nome: "DJALMA LEANDRO" },
+            { matricula: "1331773", nome: "GABRIEL LEITE MEDEIROS" },
+            { matricula: "1331762", nome: "HENRIQUE SANTOS SILVA" },
+            { matricula: "1332481", nome: "JOÃO VICTOR FERNANDES DE OLIVEIRA" },
+            { matricula: "1331918", nome: "LUCAS VINÍCIUS MARTINS" },
+            { matricula: "1332180", nome: "NICKOLAS LEONARDO KNIHS" },
+            { matricula: "1332026", nome: "RAUL SCHMITZ" },
+            { matricula: "1331874", nome: "TIAGO GABRIEL HEILER" },
+            { matricula: "1332083", nome: "YURI HOYER INSAURRAULD NUNES" },
+          ],
+        },
+        {
+          lider: { matricula: "1332035", nome: "PEDRO AUGUSTO WILHELM" },
+          membros: [
+            { matricula: "1331792", nome: "BEATRICE FISCHER" },
+            { matricula: "1332696", nome: "EDIMAR HENRIQUE FERNANDES LIMA" },
+            { matricula: "1331707", nome: "FERNANDO FURTADO KNISS" },
+            { matricula: "1332549", nome: "GABRIELE MARIA FREIBERGER" },
+            { matricula: "1332000", nome: "IGOR CACIATORI" },
+            { matricula: "1332632", nome: "KARINA TERESA MEDEIROS" },
+            { matricula: "1332172", nome: "LUIS HENRIQUE DO AMARAL" },
+            { matricula: "1332587", nome: "SAMANTHA URBANSKI MELLO" },
+            { matricula: "1332112", nome: "VICTOR GABRIEL GARBIN DO NASCIMENTO" },
+          ],
+        },
+        {
+          lider: { matricula: "1332670", nome: "FERNANDA AGNES AMORIM" },
+          membros: [
+            { matricula: "1332551", nome: "BRENDA ALINE KOBROSKI" },
+            { matricula: "1331664", nome: "EDUARDO MANSKE" },
+            { matricula: "1332624", nome: "FILIPE FORMIGARI" },
+            { matricula: "1331777", nome: "ÍTALO MARLISSON FERREIRA DA SILVA" },
+            { matricula: "1331798", nome: "LUANA THAINÁ NICHELATTI" },
+            { matricula: "1332764", nome: "MATEUS ANDRE KNIS" },
+            { matricula: "1332063", nome: "PEDRO EDUARDO BOGOMOLOF TAQUEGAMI" },
+            { matricula: "1332130", nome: "SAMUEL MAGALHAES MARQUES" },
+          ],
+        },
+        {
+          lider: { matricula: "1332087", nome: "VINICIUS VIEIRA MURARA" },
+          membros: [
+            { matricula: "1332692", nome: "CARLOS ALBERTO RAMOS DA SILVA" },
+            { matricula: "1332826", nome: "EMANOEL ALVES NAZARIO" },
+            { matricula: "1332155", nome: "GABRIEL ARENDARTCHUK FLÔR" },
+            { matricula: "1331789", nome: "GUSTAVO DE SOUZA" },
+            { matricula: "1332550", nome: "JAQUELINE JUNKES" },
+            { matricula: "1326331", nome: "LUCAS DE CARVALHO ZIELE" },
+            { matricula: "1328178", nome: "MATHEUS NASCIMENTO DE OLIVEIRA" },
+            { matricula: "1330384", nome: "PEDRO MEDER BRANCO" },
+            { matricula: "1332529", nome: "SAYMON OLIVEIRA DE CASTRO" },
+            { matricula: "1332584", nome: "WILSON DE MORAIS" },
+          ],
+        },
+        {
+          lider: { matricula: "1332005", nome: "GIOVANNA LOPES PONTES" },
+          membros: [
+            { matricula: "1332545", nome: "DANIEL HENRIQUE SELL" },
+            { matricula: "1331770", nome: "FABRÍCIO NILO FERREIRA DA SILVA" },
+            { matricula: "1332166", nome: "GABRIEL FORMIGARI" },
+            { matricula: "1332062", nome: "JOÃO PAULO GOMES RODRIGUES" },
+            { matricula: "1331907", nome: "LUCAS HENRIQUE BONAMIGO OLIVEIRA" },
+            { matricula: "1331959", nome: "MIGUEL VASCONCELOS DE OLIVEIRA" },
+            { matricula: "1332533", nome: "RAFAEL RODRIGUES DE SOUZA" },
+            { matricula: "1331905", nome: "SEAN TIERRY ALVES" },
+            { matricula: "1332580", nome: "YAGO HANNIEL KALINKE DA SILVA" },
+          ],
+        },
+      ];
+
+      const elGrid = document.getElementById("grid");
+      const elEmpty = document.getElementById("empty");
+      const elSearch = document.getElementById("search");
+      const elTema = document.getElementById("tema");
+      const elStats = document.getElementById("stats");
+
+      function normalize(str = "") {
+        return String(str)
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+      }
+
+      function getTemas(items) {
+        const temas = new Set();
+        for (const t of items) {
+          if (t.tema && String(t.tema).trim()) temas.add(String(t.tema).trim());
+        }
+        return Array.from(temas).sort((a, b) => a.localeCompare(b, "pt-BR"));
+      }
+
+      function renderTemaOptions(items) {
+        const temas = getTemas(items);
+        elTema.innerHTML = '<option value="__ALL__">Todos os temas</option>';
+        for (const tema of temas) {
+          const opt = document.createElement("option");
+          opt.value = tema;
+          opt.textContent = tema;
+          elTema.appendChild(opt);
+        }
+      }
+
+      function cardTemplate(team) {
+        const temaBadge = team.tema
+          ? `<span class="inline-flex items-center rounded-full border border-slate-700 bg-slate-900/60 px-2 py-0.5 text-xs text-slate-300">
+              ${team.tema}
+            </span>`
+          : `<span class="inline-flex items-center rounded-full border border-slate-800 bg-slate-900/30 px-2 py-0.5 text-xs text-slate-500">
+              sem tema
+            </span>`;
+
+        const membrosHtml = team.membros
+          .map(
+            (m) => `
+              <li class="flex items-start justify-between gap-3 rounded-xl border border-slate-800 bg-slate-950/30 px-3 py-2">
+                <div class="min-w-0">
+                  <p class="truncate text-sm font-medium text-slate-100">${m.nome}</p>
+                  <p class="text-xs text-slate-500">Matrícula: ${m.matricula}</p>
+                </div>
+                <span class="shrink-0 rounded-lg border border-slate-800 bg-slate-900/40 px-2 py-1 text-[11px] text-slate-300">
+                  Dev
+                </span>
+              </li>
+            `
+          )
+          .join("");
+
+        return `
+          <section class="group rounded-2xl border border-slate-800 bg-slate-900/30 p-4 shadow-sm">
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <div class="flex flex-wrap items-center gap-2">
+                  <h2 class="truncate text-base font-semibold text-slate-100">
+                    ${team.lider.nome}
+                  </h2>
+                  ${temaBadge}
+                </div>
+                <p class="mt-1 text-xs text-slate-500">Líder • Matrícula: ${team.lider.matricula}</p>
+              </div>
+
+              <span class="shrink-0 rounded-xl border border-slate-800 bg-slate-950/40 px-3 py-1 text-xs text-slate-300">
+                ${team.membros.length} devs
+              </span>
+            </div>
+
+            <div class="mt-4">
+              <p class="mb-2 text-xs font-medium uppercase tracking-wide text-slate-400">Membros</p>
+              <ul class="space-y-2">
+                ${membrosHtml}
+              </ul>
+            </div>
+          </section>
+        `;
+      }
+
+      function applyFilters(items) {
+        const q = normalize(elSearch.value.trim());
+        const tema = elTema.value;
+
+        return items.filter((team) => {
+          const temaOk = tema === "__ALL__" ? true : String(team.tema || "").trim() === tema;
+
+          if (!q) return temaOk;
+
+          const hay = [
+            team.tema || "",
+            team.lider.nome,
+            team.lider.matricula,
+            ...team.membros.map((m) => `${m.nome} ${m.matricula}`),
+          ]
+            .map(normalize)
+            .join(" | ");
+
+          return temaOk && hay.includes(q);
+        });
+      }
+
+      function updateStats(allItems, filteredItems) {
+        const totalTimes = allItems.length;
+        const totalDevs = allItems.reduce((acc, t) => acc + (t.membros?.length || 0), 0);
+
+        const filtTimes = filteredItems.length;
+        const filtDevs = filteredItems.reduce((acc, t) => acc + (t.membros?.length || 0), 0);
+
+        elStats.textContent = `${filtTimes}/${totalTimes} times • ${filtDevs}/${totalDevs} devs`;
+      }
+
+      function render() {
+        const filtered = applyFilters(data);
+        updateStats(data, filtered);
+
+        if (!filtered.length) {
+          elGrid.innerHTML = "";
+          elEmpty.classList.remove("hidden");
+          return;
+        }
+
+        elEmpty.classList.add("hidden");
+        elGrid.innerHTML = filtered.map(cardTemplate).join("");
+      }
+
+      renderTemaOptions(data);
+      render();
+
+      elSearch.addEventListener("input", render);
+      elTema.addEventListener("change", render);
+    </script>
+  </body>
+</html>

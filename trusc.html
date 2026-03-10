@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML Test · TrustArc Sandbox</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #1a1a2e;
+  --ink2: #2d2d4a;
+  --ink3: #6b6b85;
+  --fog: #f4f3f0;
+  --fog2: #eceae5;
+  --fog3: #dddad3;
+  --linen: #faf9f7;
+  --gold: #b8832a;
+  --gold2: #d4a84b;
+  --green: #1e6b48;
+  --green-bg: #eef8f3;
+  --green-border: #9dd4b8;
+  --red: #b53028;
+  --red-bg: #fdf2f1;
+  --red-border: #ecb0aa;
+  --blue: #1a4fa8;
+  --blue-bg: #eef3fd;
+  --radius: 10px;
+  --mono: 'DM Mono', monospace;
+  --serif: 'DM Serif Display', serif;
+  --sans: 'DM Sans', sans-serif;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: var(--sans);
+  background: var(--linen);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top Bar ── */
+.topbar {
+  background: var(--ink);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  gap: 18px;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.logo {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: #fff;
+  opacity: 0.92;
+  display: flex; align-items: center; gap: 9px;
+}
+.logo-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold2);
+  box-shadow: 0 0 10px var(--gold2);
+  flex-shrink: 0;
+}
+.topbar-div { width: 1px; height: 18px; background: rgba(255,255,255,0.1); }
+.current-task-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.04em;
+}
+
+/* Step dots */
+.steps {
+  margin-left: auto;
+  display: flex; gap: 6px; align-items: center;
+}
+.step {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 0.68rem;
+  color: rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  position: relative;
+}
+.step:hover { border-color: rgba(255,255,255,0.45); color: rgba(255,255,255,0.6); }
+.step.active { border-color: var(--gold2); color: var(--gold2); }
+.step.done { background: var(--green); border-color: var(--green); color: #fff; }
+.step.done::after { content: '✓'; font-size: 0.62rem; position: absolute; }
+.step.done > span { display: none; }
+
+/* ── App layout ── */
+.app {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  overflow: hidden;
+}
+
+/* ── Left Panel ── */
+.left {
+  background: var(--fog);
+  border-right: 1px solid var(--fog3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.task-block {
+  padding: 26px 24px 18px;
+  border-bottom: 1px solid var(--fog3);
+  flex-shrink: 0;
+}
+
+.task-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 7px;
+  display: flex; align-items: center; gap: 7px;
+}
+.task-eyebrow::before {
+  content: '';
+  width: 16px; height: 1.5px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.task-title {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  line-height: 1.18;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.task-desc {
+  font-size: 0.845rem;
+  color: var(--ink3);
+  line-height: 1.72;
+}
+.task-desc code {
+  font-family: var(--mono);
+  font-size: 0.78em;
+  background: var(--fog2);
+  border: 1px solid var(--fog3);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--ink2);
+}
+
+/* Subtasks */
+.subtasks {
+  padding: 14px 24px 6px;
+  flex-shrink: 0;
+  display: none;
+}
+.subtask {
+  display: flex; gap: 9px; margin-bottom: 9px;
+  font-size: 0.81rem; color: var(--ink3); line-height: 1.55;
+  align-items: flex-start;
+}
+.stag {
+  font-family: var(--mono); font-size: 0.67rem;
+  background: var(--ink); color: var(--gold2);
+  padding: 2px 6px; border-radius: 4px;
+  flex-shrink: 0; margin-top: 1px;
+}
+
+/* Hint */
+.hint-wrap { padding: 0 24px 14px; flex-shrink: 0; }
+.hint-toggle {
+  display: flex; align-items: center; gap: 7px;
+  padding: 9px 13px;
+  background: var(--fog2);
+  border: 1px solid var(--fog3);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  color: var(--ink3);
+  user-select: none;
+  transition: all 0.18s;
+}
+.hint-toggle:hover { color: var(--ink); border-color: var(--ink3); }
+.hint-caret { margin-left: auto; transition: transform 0.2s; font-size: 11px; }
+.hint-toggle.open .hint-caret { transform: rotate(180deg); }
+.hint-body {
+  display: none;
+  margin-top: 6px;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid var(--fog3);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: var(--ink3);
+  line-height: 1.7;
+}
+.hint-body.show { display: block; animation: fadeSlide 0.2s ease; }
+.hint-body code {
+  font-family: var(--mono); font-size: 0.78em;
+  background: var(--fog); border: 1px solid var(--fog3);
+  padding: 1px 4px; border-radius: 3px; color: var(--ink2);
+}
+
+/* Validation result */
+.val-result {
+  margin: 0 24px 14px;
+  border-radius: 9px;
+  padding: 13px 15px;
+  font-size: 0.81rem;
+  line-height: 1.62;
+  display: none;
+  flex-shrink: 0;
+  animation: fadeSlide 0.25s ease;
+}
+.val-result.ok {
+  display: block;
+  background: var(--green-bg);
+  border: 1px solid var(--green-border);
+  color: var(--green);
+}
+.val-result.fail {
+  display: block;
+  background: var(--red-bg);
+  border: 1px solid var(--red-border);
+  color: var(--red);
+}
+.val-icon { font-size: 1.05rem; margin-bottom: 3px; display: block; }
+.val-title { font-weight: 500; margin-bottom: 2px; }
+.val-msg { opacity: 0.82; font-size: 0.77rem; }
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Nav */
+.task-nav {
+  margin-top: auto;
+  padding: 14px 24px;
+  border-top: 1px solid var(--fog3);
+  display: flex; gap: 8px;
+  flex-shrink: 0;
+}
+.nbtn {
+  flex: 1; padding: 8px;
+  border-radius: 7px;
+  font-family: var(--sans); font-size: 0.78rem; font-weight: 500;
+  cursor: pointer; transition: all 0.17s;
+  border: 1px solid var(--fog3);
+  background: #fff; color: var(--ink3);
+}
+.nbtn:hover:not(:disabled) { color: var(--ink); border-color: var(--ink3); }
+.nbtn:disabled { opacity: 0.3; cursor: default; }
+.nbtn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+.nbtn.primary:hover { background: var(--ink2); }
+
+/* ── Right Panel ── */
+.right {
+  display: flex; flex-direction: column; overflow: hidden;
+}
+
+.tabbar {
+  background: var(--fog);
+  border-bottom: 1px solid var(--fog3);
+  height: 44px;
+  display: flex; align-items: center;
+  padding: 0 16px; gap: 2px;
+  flex-shrink: 0;
+}
+.tbtn {
+  padding: 5px 13px; border-radius: 6px;
+  font-family: var(--sans); font-size: 0.78rem; font-weight: 500;
+  color: var(--ink3); cursor: pointer; border: none; background: transparent;
+  transition: all 0.17s;
+}
+.tbtn:hover { color: var(--ink); background: var(--fog2); }
+.tbtn.active { color: var(--ink); background: #fff; box-shadow: 0 1px 4px rgba(26,26,46,0.09); }
+
+.tab-actions { margin-left: auto; display: flex; gap: 6px; }
+.abtn {
+  padding: 5px 13px; border-radius: 6px;
+  font-family: var(--sans); font-size: 0.75rem; font-weight: 500;
+  cursor: pointer; transition: all 0.17s; border: none;
+}
+.abtn.run { background: var(--ink); color: #fff; }
+.abtn.run:hover { background: var(--ink2); }
+.abtn.validate { background: var(--gold); color: #fff; }
+.abtn.validate:hover { background: var(--gold2); }
+.abtn.reset { background: transparent; border: 1px solid var(--fog3); color: var(--ink3); }
+.abtn.reset:hover { border-color: var(--ink3); color: var(--ink); }
+
+/* Panels */
+.panels { flex: 1; overflow: hidden; position: relative; }
+.panel { position: absolute; inset: 0; display: none; flex-direction: column; }
+.panel.active { display: flex; }
+
+/* Editor */
+.editor-box {
+  flex: 1; display: flex; overflow: hidden;
+  background: #1e1e2e;
+}
+.lnums {
+  padding: 18px 12px 18px 16px;
+  background: #181825;
+  color: #3d3d55;
+  font-family: var(--mono); font-size: 13px; line-height: 1.72;
+  text-align: right; user-select: none; white-space: pre;
+  border-right: 1px solid #252535;
+  overflow: hidden; flex-shrink: 0; min-width: 44px;
+}
+.code-ta {
+  flex: 1; padding: 18px 20px;
+  font-family: var(--mono); font-size: 13px; line-height: 1.72;
+  background: #1e1e2e; color: #cdd6f4;
+  border: none; resize: none; outline: none; tab-size: 2;
+  overflow-y: auto; caret-color: var(--gold2);
+}
+.code-ta::selection { background: rgba(184,131,42,0.22); }
+
+/* Preview */
+.preview-f { flex: 1; border: none; background: #fff; }
+
+/* Solution */
+.sol-banner {
+  padding: 10px 18px;
+  background: var(--green-bg); border-bottom: 1px solid var(--green-border);
+  font-family: var(--mono); font-size: 0.7rem; color: var(--green);
+  display: flex; align-items: center; gap: 8px;
+  flex-shrink: 0;
+}
+.sol-grid {
+  flex: 1; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden;
+}
+.sol-col {
+  display: flex; flex-direction: column; overflow: hidden;
+  border-right: 1px solid var(--fog3);
+}
+.sol-col:last-child { border: none; }
+.sol-col-hd {
+  padding: 8px 14px; background: var(--fog2); border-bottom: 1px solid var(--fog3);
+  font-family: var(--mono); font-size: 0.67rem; letter-spacing: 0.09em;
+  text-transform: uppercase; color: var(--ink3);
+  flex-shrink: 0;
+}
+.sol-code {
+  flex: 1; overflow-y: auto; padding: 16px;
+  font-family: var(--mono); font-size: 12.5px; line-height: 1.72;
+  background: #0d1117; color: #a6e3a1; white-space: pre-wrap; word-break: break-word;
+}
+.sol-preview-f { flex: 1; border: none; background: #fff; }
+.sol-explain {
+  padding: 14px 18px;
+  background: var(--blue-bg); border-top: 1px solid #c3d3ee;
+  font-size: 0.78rem; color: #1a4fa8; line-height: 1.72;
+  max-height: 140px; overflow-y: auto; flex-shrink: 0;
+  white-space: pre-line;
+}
+
+/* Status bar */
+.statusbar {
+  height: 22px; background: #12121e;
+  display: flex; align-items: center; padding: 0 18px; gap: 14px;
+  flex-shrink: 0;
+}
+.sitem {
+  font-family: var(--mono); font-size: 0.62rem;
+  color: rgba(255,255,255,0.28);
+  display: flex; align-items: center; gap: 5px;
+}
+.sitem .sd { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+.sitem.ok .sd { background: #a6e3a1; }
+.sitem.err .sd { background: #f38ba8; }
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(100,100,130,0.22); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(100,100,130,0.4); }
+
+/* Confetti */
+.cp {
+  position: fixed; width: 7px; height: 7px; border-radius: 2px;
+  pointer-events: none; z-index: 9999;
+  animation: cf 1.3s ease-in forwards;
+}
+@keyframes cf {
+  0%   { opacity: 1; transform: translateY(-10px) rotate(0deg) scale(1); }
+  100% { opacity: 0; transform: translateY(75vh) rotate(680deg) scale(0.6); }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo"><div class="logo-dot"></div>TrustArc · HTML Sandbox</div>
+  <div class="topbar-div"></div>
+  <div class="current-task-label" id="currentLabel">tarefa 1 / 4</div>
+  <div class="steps">
+    <div class="step active" id="s1" onclick="goTask(0)"><span>1</span></div>
+    <div class="step" id="s2" onclick="goTask(1)"><span>2</span></div>
+    <div class="step" id="s3" onclick="goTask(2)"><span>3</span></div>
+    <div class="step" id="s4" onclick="goTask(3)"><span>4</span></div>
+  </div>
+</div>
+
+<div class="app">
+  <div class="left">
+    <div class="task-block">
+      <div class="task-eyebrow" id="tEyebrow">Tarefa 01</div>
+      <div class="task-title" id="tTitle">—</div>
+      <div class="task-desc" id="tDesc">—</div>
+    </div>
+
+    <div class="subtasks" id="subtasksEl">
+      <div id="subtasksList"></div>
+    </div>
+
+    <div class="hint-wrap">
+      <div class="hint-toggle" id="hintToggle" onclick="toggleHint()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        Dica
+        <span class="hint-caret">▾</span>
+      </div>
+      <div class="hint-body" id="hintBody"></div>
+    </div>
+
+    <div class="val-result" id="valResult">
+      <span class="val-icon" id="valIcon"></span>
+      <div class="val-title" id="valTitle"></div>
+      <div class="val-msg" id="valMsg"></div>
+    </div>
+
+    <div class="task-nav">
+      <button class="nbtn" id="btnPrev" onclick="prevTask()">← Anterior</button>
+      <button class="nbtn primary" id="btnNext" onclick="nextTask()">Próxima →</button>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="tabbar">
+      <button class="tbtn active" id="tab-editor" onclick="switchTab('editor')">Editor</button>
+      <button class="tbtn" id="tab-preview" onclick="switchTab('preview')">Preview</button>
+      <button class="tbtn" id="tab-solution" onclick="switchTab('solution')">Solução</button>
+      <div class="tab-actions">
+        <button class="abtn reset" onclick="resetCode()" title="Resetar código">↺</button>
+        <button class="abtn run" onclick="runPreview()">▶ Executar</button>
+        <button class="abtn validate" onclick="validateAnswer()">✦ Validar</button>
+      </div>
+    </div>
+
+    <div class="panels">
+      <!-- Editor -->
+      <div class="panel active" id="panel-editor">
+        <div class="editor-box">
+          <div class="lnums" id="lnums">1</div>
+          <textarea class="code-ta" id="codeArea" spellcheck="false"
+            onkeydown="handleTab(event)"
+            oninput="syncLines(); clearVal()"></textarea>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="panel" id="panel-preview">
+        <iframe class="preview-f" id="previewFrame"></iframe>
+      </div>
+
+      <!-- Solution -->
+      <div class="panel" id="panel-solution">
+        <div class="sol-banner">✦ Gabarito — código correto e resultado esperado</div>
+        <div class="sol-grid">
+          <div class="sol-col">
+            <div class="sol-col-hd">código correto</div>
+            <div class="sol-code" id="solCode"></div>
+          </div>
+          <div class="sol-col">
+            <div class="sol-col-hd">resultado visual</div>
+            <iframe class="sol-preview-f" id="solFrame"></iframe>
+          </div>
+        </div>
+        <div class="sol-explain" id="solExplain"></div>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <div class="sitem" id="statusEl"><div class="sd"></div><span id="statusTxt">aguardando</span></div>
+      <div class="sitem" style="margin-left:auto">
+        <span id="charCnt" style="font-family:var(--mono);font-size:0.62rem;color:rgba(255,255,255,0.22)">0 ch</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const T = [
+  {
+    id:1, title:"Lista não-ordenada",
+    desc:"Converta o elemento <code>&lt;select&gt;</code> abaixo em uma lista <code>&lt;ul&gt;</code> com os mesmos itens.",
+    subtasks: null,
+    hint:"Troque <code>&lt;select&gt;</code> → <code>&lt;ul&gt;</code> e cada <code>&lt;option value=\"...\"&gt;</code> → <code>&lt;li&gt;</code>. Os atributos <code>value</code> pertencem ao option e devem ser removidos.",
+    starter:`<!-- Converta o <select> em <ul> com os mesmos itens -->
+
+<select>
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="mercedes">Mercedes</option>
+  <option value="audi">Audi</option>
+</select>`,
+    solution:`<ul>
+  <li>Volvo</li>
+  <li>Saab</li>
+  <li>Mercedes</li>
+  <li>Audi</li>
+</ul>`,
+    explain:`A tag <select> cria um dropdown — não uma lista visível no documento. Para converter em lista não-ordenada usa-se <ul> como container e <li> para cada item. Os atributos value pertencem ao contexto de formulários e não são necessários em <li>.`,
+    validate(code) {
+      const d = document.createElement('div');
+      d.innerHTML = code;
+      const ul = d.querySelector('ul');
+      const sel = d.querySelector('select');
+      if (!ul) return [false,"Não encontrei um <ul> no código."];
+      if (sel) return [false,"O <select> ainda está presente. Remova-o completamente."];
+      const items = ul.querySelectorAll('li');
+      if (items.length < 4) return [false,`Encontrei apenas ${items.length} item(ns). São necessários 4.`];
+      const texts = Array.from(items).map(i => i.textContent.trim().toLowerCase());
+      const miss = ['volvo','saab','mercedes','audi'].filter(e => !texts.includes(e));
+      if (miss.length) return [false,`Itens faltando: ${miss.join(', ')}.`];
+      return [true,"Lista <ul> criada corretamente com os 4 itens!"];
+    }
+  },
+  {
+    id:2, title:"Elemento de imagem",
+    desc:"Crie uma tag <code>&lt;img&gt;</code> que exiba a imagem de vegetais frescos usando a URL fornecida.",
+    subtasks: null,
+    hint:"Use <code>&lt;img src=\"URL\" alt=\"descrição\"&gt;</code>. A URL está no comentário. Sempre inclua o atributo <code>alt</code> — é obrigatório por acessibilidade.",
+    starter:`<!-- Crie um <img> com a URL abaixo:
+  https://media.istockphoto.com/id/160427250/photo/fresh-vegetables-in-basket.jpg?s=1024x1024&w=is&k=20&c=KVvenL77w2RCg8MZZTvJqtWqxElvEnlnOtpA9KdGVnU=
+-->
+
+<!-- Escreva o <img> aqui: -->
+`,
+    solution:`<img
+  src="https://media.istockphoto.com/id/160427250/photo/fresh-vegetables-in-basket.jpg?s=1024x1024&w=is&k=20&c=KVvenL77w2RCg8MZZTvJqtWqxElvEnlnOtpA9KdGVnU="
+  alt="Fresh vegetables in basket"
+  style="max-width: 100%; height: auto;"
+>`,
+    explain:`A tag <img> é void element — auto-fechante, sem </img>. O atributo src define a URL da imagem. O atributo alt é essencial para acessibilidade: descreve a imagem para leitores de tela e aparece como fallback quando a imagem falha ao carregar. Adicionar style com max-width:100% garante responsividade.`,
+    validate(code) {
+      const d = document.createElement('div');
+      d.innerHTML = code;
+      const img = d.querySelector('img');
+      if (!img) return [false,"Não encontrei nenhuma tag <img> no código."];
+      const src = img.getAttribute('src') || '';
+      if (!src.includes('istockphoto') && !src.includes('160427250'))
+        return [false,"O atributo src não contém a URL do iStockPhoto fornecida."];
+      if (!src.trim()) return [false,"O atributo src está vazio."];
+      return [true,"Imagem configurada corretamente com a URL fornecida!"];
+    }
+  },
+  {
+    id:3, title:"Estilização CSS inline",
+    desc:"Aplique os estilos CSS inline corretos nos elementos do bloco abaixo.",
+    subtasks:[
+      {l:"a)", t:"\"I am an Ad\" deve aparecer na cor <strong>vermelha</strong> — <code>color: red</code>"},
+      {l:"b)", t:"\"Center Me!\" deve aparecer na cor <strong>roxa</strong> e estar <strong>centralizado</strong> — <code>color: purple; text-align: center</code>"}
+    ],
+    hint:"Adicione <code>style=\"color: red;\"</code> no <code>&lt;h2&gt;</code> e <code>style=\"color: purple; text-align: center;\"</code> no <code>&lt;h1&gt;</code>.",
+    starter:`<!-- Adicione os estilos inline corretos -->
+
+<div id="efg" style="width:300px;height:250px;background-color:gray">
+  <h2>I am an Ad</h2>
+  <h1>Center Me!</h1>
+</div>`,
+    solution:`<div id="efg" style="width:300px;height:250px;background-color:gray">
+  <h2 style="color: red;">I am an Ad</h2>
+  <h1 style="color: purple; text-align: center;">Center Me!</h1>
+</div>`,
+    explain:`CSS inline é aplicado diretamente na tag via atributo style="propriedade: valor;". A propriedade color define a cor do texto e text-align: center centraliza horizontalmente o conteúdo. Embora CSS inline funcione, em projetos reais prefere-se classes e folhas de estilo externas para facilitar manutenção.`,
+    validate(code) {
+      const d = document.createElement('div');
+      d.innerHTML = code;
+      const h2 = d.querySelector('h2');
+      const h1 = d.querySelector('h1');
+      if (!h2) return [false,"Não encontrei o elemento <h2>."];
+      if (!h1) return [false,"Não encontrei o elemento <h1>."];
+      const s2 = (h2.getAttribute('style')||'').replace(/\s/g,'').toLowerCase();
+      const s1 = (h1.getAttribute('style')||'').replace(/\s/g,'').toLowerCase();
+      if (!s2.includes('color:red') && !s2.includes('color:#f00') && !s2.includes('color:rgb(255,0,0)'))
+        return [false,"O <h2> não está vermelho. Adicione style=\"color: red;\"."];
+      if (!s1.includes('color:purple') && !s1.includes('color:#800080'))
+        return [false,"O <h1> não está roxo. Adicione color: purple no style."];
+      if (!s1.includes('text-align:center'))
+        return [false,"O <h1> não está centralizado. Adicione text-align: center no style."];
+      return [true,"Estilos inline aplicados corretamente em ambos os elementos!"];
+    }
+  },
+  {
+    id:4, title:"AdChoices — Correção de Tags",
+    desc:"Dois blocos TrustArc estão quebrados. Identifique os erros, explique em comentários no HTML e corrija para que o ícone AdChoices apareça.",
+    subtasks:[
+      {l:"a)", t:"O <code>&lt;script&gt;</code> está <strong>fora</strong> do <code>&lt;div&gt;</code> container — ele deve estar <strong>dentro</strong>."},
+      {l:"b)", t:"A tag <code>&lt;/span&gt;</code> de fechamento está <strong>ausente</strong> e há um <code>&lt;/div&gt;</code> extra e errado."}
+    ],
+    hint:"(a) Mova o <code>&lt;span&gt;</code>+<code>&lt;script&gt;</code> para dentro do <code>&lt;div&gt;</code>. (b) Adicione o <code>&lt;/span&gt;</code> que falta e remova o <code>&lt;/div&gt;</code> extra. Adicione <code>position:relative</code> nos divs.",
+    starter:`<!-- TAREFA 4: Encontre e corrija os erros em (a) e (b).
+     Explique o problema em comentários HTML acima de cada bloco. -->
+
+<!-- === (a) Por que o ícone não aparece? === -->
+<div id="adc_a" style="width:300px;height:600px;background-color:gray"></div>
+
+<span id="te-clearads-js-cachebuster1">
+<script type="text/javascript"
+  src="http://choices.truste.com/ca?pid=truste01&aid=testing&cid=testad300x600&c=cachebuster1&w=300&h=600">
+<\/script></span>
+
+
+<!-- === (b) Por que o ícone não aparece? === -->
+<div id="adc_b" style="width:300px;height:250px;background-color:gray"></div>
+
+<span id="te-clearads-js-cachebuster2">
+<script type="text/javascript"
+  src="http://choices.truste.com/ca?pid=truste01&aid=testing&plc=tl&cid=testad300x250&c=cachebuster2&w=300&h=250">
+<\/script>
+
+</div>`,
+    solution:`<!-- (a) ERRO: <script> estava FORA do div container.
+     O TrustArc usa c=cachebuster1 para localizar o elemento pelo ID
+     e injeta o ícone dentro dele. Estando fora, o script não encontra
+     o container correto.
+     CORREÇÃO: mover o <span>+<script> para dentro do <div>. -->
+<div id="adc_a" style="width:300px;height:600px;background-color:gray;position:relative">
+  <span id="te-clearads-js-cachebuster1">
+    <script type="text/javascript"
+      src="http://choices.truste.com/ca?pid=truste01&aid=testing&cid=testad300x600&c=cachebuster1&w=300&h=600">
+    <\/script>
+  </span>
+</div>
+
+<br>
+
+<!-- (b) ERROS:
+     1. </span> de fechamento AUSENTE — HTML malformado, parser se perde.
+     2. </div> extra e incorreto no final — fecha o container errado.
+     CORREÇÃO: adicionar </span> e remover </div> extra.
+     O parâmetro plc=tl já posiciona o ícone no canto superior esquerdo. -->
+<div id="adc_b" style="width:300px;height:250px;background-color:gray;position:relative">
+  <span id="te-clearads-js-cachebuster2">
+    <script type="text/javascript"
+      src="http://choices.truste.com/ca?pid=truste01&aid=testing&plc=tl&cid=testad300x250&c=cachebuster2&w=300&h=250">
+    <\/script>
+  </span>
+</div>`,
+    explain:`Erro (a): O script TrustArc usa o parâmetro c= para encontrar o elemento container por ID no DOM. Se o script estiver fora do <div>, ele não consegue injetar o ícone AdChoices dentro do espaço correto. Solução: colocar o bloco <span>+<script> como filho do <div> do anúncio.\n\nErro (b): Dois problemas distintos. (1) O </span> nunca foi fechado, deixando o HTML malformado — o browser parser lida com isso de forma imprevisível, quebrando o posicionamento do ícone. (2) Um </div> extra fecha o elemento wrapper incorretamente, deslocando elementos subsequentes. Com position:relative no div e o parâmetro plc=tl, o ícone é automaticamente posicionado no canto superior esquerdo.`,
+    validate(code) {
+      const hasExplain = /erro|problem|fora|dentro|ausente|fechad|missing|outside|inside/i.test(code);
+      if (!hasExplain)
+        return [false,"Adicione uma explicação dos erros (em comentários HTML ou texto). O que estava errado?"];
+
+      const spanOpen  = (code.match(/<span/gi)  || []).length;
+      const spanClose = (code.match(/<\/span>/gi)|| []).length;
+      if (spanClose < spanOpen)
+        return [false,`Ainda há <span> sem fechar. Abertos: ${spanOpen}, Fechados: ${spanClose}.`];
+
+      // Check script-a is inside a div (heuristic: div closes after script)
+      const idxDivA  = code.search(/adc_a/i);
+      const idxScrA  = code.search(/cachebuster1/i);
+      const idxDivAClose = code.indexOf('</div>', idxDivA);
+      if (idxDivA !== -1 && idxScrA !== -1 && idxDivAClose !== -1) {
+        if (idxScrA > idxDivAClose)
+          return [false,"(a) O script ainda está fora do <div> container. Mova o <span>+<script> para dentro do div."];
+      }
+
+      return [true,"Erros identificados, explicados e corrigidos corretamente!"];
+    }
+  }
+];
+
+// ─── State ───────────────────────────────────────────
+let cur = 0;
+let codes = T.map(t => t.starter);
+let hintOpen = false;
+let activeTab = 'editor';
+
+// ─── Load task ───────────────────────────────────────
+function loadTask(i) {
+  codes[cur] = document.getElementById('codeArea').value;
+  cur = i;
+  const t = T[cur];
+
+  document.getElementById('tEyebrow').textContent = `Tarefa 0${t.id}`;
+  document.getElementById('tTitle').textContent = t.title;
+  document.getElementById('tDesc').innerHTML = t.desc;
+  document.getElementById('currentLabel').textContent = `tarefa ${t.id} / 4`;
+
+  const sw = document.getElementById('subtasksEl');
+  const sl = document.getElementById('subtasksList');
+  if (t.subtasks) {
+    sw.style.display = 'block';
+    sl.innerHTML = t.subtasks.map(s =>
+      `<div class="subtask"><span class="stag">${s.l}</span><span>${s.t}</span></div>`
+    ).join('');
+  } else {
+    sw.style.display = 'none';
+  }
+
+  document.getElementById('hintBody').innerHTML = t.hint;
+  hintOpen = false;
+  document.getElementById('hintToggle').classList.remove('open');
+  document.getElementById('hintBody').classList.remove('show');
+
+  document.getElementById('codeArea').value = codes[cur];
+  syncLines();
+  clearVal();
+  setStatus('aguardando', '');
+
+  // Update dots
+  for (let n = 0; n < 4; n++) {
+    const d = document.getElementById('s' + (n+1));
+    d.classList.toggle('active', n === cur);
+    if (!d.classList.contains('done')) d.classList.remove('active');
+    if (n === cur && !d.classList.contains('done')) d.classList.add('active');
+  }
+
+  document.getElementById('btnPrev').disabled = cur === 0;
+  document.getElementById('btnNext').textContent = cur === 3 ? 'Finalizar ✓' : 'Próxima →';
+
+  if (activeTab === 'preview') renderInFrame(document.getElementById('previewFrame'), codes[cur]);
+  if (activeTab === 'solution') loadSolution();
+}
+
+function goTask(i) { loadTask(i); }
+function prevTask() { if (cur > 0) loadTask(cur-1); }
+function nextTask() {
+  if (cur < 3) loadTask(cur+1);
+  else {
+    const done = document.querySelectorAll('.step.done').length;
+    alert(`Teste finalizado!\nTarefas concluídas: ${done}/4 ✦`);
+  }
+}
+
+// ─── Tabs ─────────────────────────────────────────────
+function switchTab(tab) {
+  activeTab = tab;
+  ['editor','preview','solution'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+    document.getElementById('panel-'+t).classList.toggle('active', t===tab);
+  });
+  if (tab === 'preview') { codes[cur] = document.getElementById('codeArea').value; renderInFrame(document.getElementById('previewFrame'), codes[cur]); }
+  if (tab === 'solution') loadSolution();
+}
+
+function renderInFrame(f, code) {
+  const doc = f.contentDocument || f.contentWindow.document;
+  doc.open();
+  doc.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>body{font-family:sans-serif;padding:22px;line-height:1.6}img{max-width:100%;height:auto;display:block}</style>
+</head><body>${code}</body></html>`);
+  doc.close();
+}
+
+function loadSolution() {
+  const t = T[cur];
+  document.getElementById('solCode').textContent = t.solution;
+  document.getElementById('solExplain').textContent = t.explain;
+  renderInFrame(document.getElementById('solFrame'), t.solution);
+}
+
+function runPreview() {
+  codes[cur] = document.getElementById('codeArea').value;
+  renderInFrame(document.getElementById('previewFrame'), codes[cur]);
+  setStatus('executado ✓', 'ok');
+  switchTab('preview');
+}
+
+// ─── Validate ─────────────────────────────────────────
+function validateAnswer() {
+  codes[cur] = document.getElementById('codeArea').value;
+  const [ok, msg] = T[cur].validate(codes[cur]);
+  const el = document.getElementById('valResult');
+  el.className = 'val-result ' + (ok ? 'ok' : 'fail');
+  document.getElementById('valIcon').textContent = ok ? '✓' : '✗';
+  document.getElementById('valTitle').textContent = ok ? 'Correto!' : 'Ainda não está certo';
+  document.getElementById('valMsg').textContent = msg;
+  if (ok) {
+    const dot = document.getElementById('s'+(cur+1));
+    dot.classList.add('done');
+    dot.classList.remove('active');
+    setStatus('validado ✓', 'ok');
+    spawnConfetti();
+  } else {
+    setStatus('resposta incorreta', 'err');
+  }
+}
+
+function clearVal() {
+  document.getElementById('valResult').className = 'val-result';
+}
+
+// ─── Utils ────────────────────────────────────────────
+function resetCode() {
+  codes[cur] = T[cur].starter;
+  document.getElementById('codeArea').value = codes[cur];
+  syncLines(); clearVal();
+  setStatus('resetado', '');
+}
+
+function toggleHint() {
+  hintOpen = !hintOpen;
+  document.getElementById('hintToggle').classList.toggle('open', hintOpen);
+  document.getElementById('hintBody').classList.toggle('show', hintOpen);
+}
+
+function handleTab(e) {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const ta = e.target, s = ta.selectionStart, en = ta.selectionEnd;
+    ta.value = ta.value.slice(0,s) + '  ' + ta.value.slice(en);
+    ta.selectionStart = ta.selectionEnd = s + 2;
+    syncLines();
+  }
+}
+
+function syncLines() {
+  const ta = document.getElementById('codeArea');
+  const n = ta.value.split('\n').length;
+  document.getElementById('lnums').textContent = Array.from({length:n},(_,i)=>i+1).join('\n');
+  document.getElementById('charCnt').textContent = ta.value.length + ' ch';
+}
+
+// Sync scroll
+document.addEventListener('DOMContentLoaded', () => {
+  const ta = document.getElementById('codeArea');
+  const ln = document.getElementById('lnums');
+  ta.addEventListener('scroll', () => { ln.scrollTop = ta.scrollTop; });
+  loadTask(0);
+});
+
+function setStatus(msg, type) {
+  document.getElementById('statusTxt').textContent = msg;
+  const el = document.getElementById('statusEl');
+  el.className = 'sitem' + (type ? ' '+type : '');
+}
+
+function spawnConfetti() {
+  const cols = ['#b8832a','#d4a84b','#1e6b48','#1a4fa8','#a6e3a1','#f38ba8'];
+  for (let i = 0; i < 50; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'cp';
+      const c = cols[Math.floor(Math.random()*cols.length)];
+      p.style.cssText = `left:${Math.random()*100}vw;top:-12px;background:${c};border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${0.9+Math.random()*0.7}s;animation-delay:${Math.random()*0.4}s`;
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 2000);
+    }, i * 25);
+  }
+}
+</script>
+</body>
+</html>

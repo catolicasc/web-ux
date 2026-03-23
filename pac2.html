@@ -72,8 +72,8 @@
             { matricula: "00", nome: "NICKOLAS LEONARDO KNIHS" },
             { matricula: "00", nome: "RAUL SCHMITZ" },
             { matricula: "00", nome: "EDIMAR HENRIQUE FERNANDES LIMA" },
-             { matricula: "00", nome: "RAFAEL RODRIGUES DE SOUZA" },
-             { matricula: "00", nome: "TIAGO GABRIEL HEILER" },
+            { matricula: "00", nome: "RAFAEL RODRIGUES DE SOUZA" },
+            { matricula: "00", nome: "TIAGO GABRIEL HEILER" },
             { matricula: "00", nome: "SAIMON OLIVEIRA DE CASTRO" },
           ],
         },
@@ -122,7 +122,7 @@
           ],
         },
         {
-          lider: { matricula: "00", nome: "", theme: "SEAN TIERRY ALVES", tema: "Grupo - Matriz de led ( comunicacao celular vs matriz )"  }
+          lider: { matricula: "00", nome: "SEAN TIERRY ALVES", tema: "Grupo 5 - Matriz de led ( comunicacao celular vs matriz )" },
           membros: [
             { matricula: "00", nome: "FABRÍCIO NILO FERREIRA DA SILVA" },
             { matricula: "00", nome: "GABRIEL FORMIGARI" },
@@ -150,7 +150,8 @@
       function getTemas(items) {
         const temas = new Set();
         for (const t of items) {
-          if (t.tema && String(t.tema).trim()) temas.add(String(t.tema).trim());
+          // Alterado para t.lider.tema
+          if (t.lider.tema && String(t.lider.tema).trim()) temas.add(String(t.lider.tema).trim());
         }
         return Array.from(temas).sort((a, b) => a.localeCompare(b, "pt-BR"));
       }
@@ -167,9 +168,10 @@
       }
 
       function cardTemplate(team) {
-        const temaBadge = team.tema
+        // Alterado para team.lider.tema
+        const temaBadge = team.lider.tema
           ? `<span class="inline-flex items-center rounded-full border border-slate-700 bg-slate-900/60 px-2 py-0.5 text-xs text-slate-300">
-              ${team.tema}
+              ${team.lider.tema}
             </span>`
           : `<span class="inline-flex items-center rounded-full border border-slate-800 bg-slate-900/30 px-2 py-0.5 text-xs text-slate-500">
               sem tema
@@ -224,12 +226,13 @@
         const tema = elTema.value;
 
         return items.filter((team) => {
-          const temaOk = tema === "__ALL__" ? true : String(team.tema || "").trim() === tema;
+          // Alterado para team.lider.tema
+          const temaOk = tema === "__ALL__" ? true : String(team.lider.tema || "").trim() === tema;
 
           if (!q) return temaOk;
 
           const hay = [
-            team.tema || "",
+            team.lider.tema || "", // Alterado para team.lider.tema
             team.lider.nome,
             team.lider.matricula,
             ...team.membros.map((m) => `${m.nome} ${m.matricula}`),

@@ -1,11 +1,11 @@
 # Atividade: Documentação de Tags HTML Básicas
 
-## 🎯 **Objetivo**
+## **Objetivo**
 Compreender e documentar o uso de tags fundamentais do HTML5, explicando suas funções, características e exemplos de uso. A atividade também reforça o conceito de que `DOCTYPE` **não é uma tag**, mas sim uma declaração.
 
 ---
 
-## 📝 **Instruções**
+## **Instruções**
 
 1. **Leia atentamente as descrições abaixo** sobre as tags e a declaração `DOCTYPE`.
 2. **Crie um arquivo HTML** (**.html**) contendo:
@@ -17,7 +17,7 @@ Compreender e documentar o uso de tags fundamentais do HTML5, explicando suas fu
 
 ---
 
-## 📚 **Exemplo de Documentação Esperada no HTML:**
+## **Exemplo de Documentação Esperada no HTML:**
 
 ```html
 <!DOCTYPE html>
@@ -66,7 +66,7 @@ Compreender e documentar o uso de tags fundamentais do HTML5, explicando suas fu
 
 ---
 
-## 🏷️ **Tags para Documentar**
+## **Tags para Documentar**
 
 Explique e demonstre o uso de cada uma das seguintes tags, seguindo o padrão mostrado no exemplo acima:
 
@@ -74,10 +74,8 @@ Explique e demonstre o uso de cada uma das seguintes tags, seguindo o padrão mo
 - `html`
 - `head`
 - `title`
-- `base`
 - `link`
 - `script`
-- `meta`
 - `style`
 - `body`
 - `header`
@@ -95,28 +93,29 @@ Explique e demonstre o uso de cada uma das seguintes tags, seguindo o padrão mo
 - `a`
 - `img`
 - `strong`
+- `span`
 
 Para cada tag:
-- 🔍 **Descrição:** Explique para que serve e onde geralmente é utilizada.
-- 💻 **Exemplo em HTML:** Inclua um exemplo funcional.
-- 💬 **Comentário no código:** Explique com comentários dentro do HTML o uso da tag.
+-  **Descrição:** Explique para que serve e onde geralmente é utilizada.
+-  **Exemplo em HTML:** Inclua um exemplo funcional.
+-  **Comentário no código:** Explique com comentários dentro do HTML o uso da tag.
 
 ---
 
-## ⚡ **Desafios Adicionais (Bônus)**
+##  **Desafios Adicionais (Bônus)**
 - Inclua exemplos com CSS no `style` ou utilizando o `link` para um arquivo externo.
 - Utilize a tag `base` de forma prática.
 - Crie uma página com uma estrutura completa que inclua **pelo menos 10 tags** da lista.
 
 ---
 
-## 📆 **Entrega**
+##  **Entrega**
 - **Formato do Arquivo:** `.html`
 - **Data de Entrega:** *(Definir data)*
 - **Modo de Envio:** *(Definir plataforma ou e-mail)*
 
 ---
 
-💬 **Observação Final:**
+ **Observação Final:**
 > Capriche nos exemplos e nos comentários. Lembre-se: a entrega é **APENAS o arquivo HTML**, com toda a documentação dentro do código, bem indentado e organizado. 😉
 

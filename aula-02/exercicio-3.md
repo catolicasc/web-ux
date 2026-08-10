@@ -99,21 +99,6 @@ Para cada tag:
 -  **Descrição:** Explique para que serve e onde geralmente é utilizada.
 -  **Exemplo em HTML:** Inclua um exemplo funcional.
 -  **Comentário no código:** Explique com comentários dentro do HTML o uso da tag.
-
----
-
-##  **Desafios Adicionais (Bônus)**
-- Inclua exemplos com CSS no `style` ou utilizando o `link` para um arquivo externo.
-- Utilize a tag `base` de forma prática.
-- Crie uma página com uma estrutura completa que inclua **pelo menos 10 tags** da lista.
-
----
-
-##  **Entrega**
-- **Formato do Arquivo:** `.html`
-- **Data de Entrega:** *(Definir data)*
-- **Modo de Envio:** *(Definir plataforma ou e-mail)*
-
 ---
 
  **Observação Final:**
